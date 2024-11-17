@@ -1,4 +1,4 @@
-### **Tutorial Outline: Advanced Data Visualization—Creating BBC-Style Plots in R with ggplot2**  
+## Advanced Data Visualization—Creating BBC-Style Plots in R with ggplot2
 
 ---
 
