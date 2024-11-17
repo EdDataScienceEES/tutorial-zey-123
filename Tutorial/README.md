@@ -1,21 +1,19 @@
-## Advanced Data Visualization—Creating BBC-Style Plots in R with ggplot2
-
+### Advanced Data Visualization: Creating BBC-Style Plots in R with ggplot2 (Part 3)
+---
+> <p align="center"> Created by Zeynep Yuksel - November 2024 </p>
 ---
 
-#### **Title:**  
-*Data Storytelling with Style: Advanced BBC-Style Plots in R*
-
----
-
-### **Overview**  
+### Overview
 
 This tutorial explores advanced data visualization techniques in R, focusing on creating professional, BBC-style graphics using **ggplot2** and supplementary packages like **patchwork** and **scico**. By the end, learners will be equipped to produce publication-ready visuals with polished themes, cohesive color palettes, and multi-panel layouts.  
 
-This tutorial targets advanced data visualization enthusiasts, such as 4th-year environmental/ecological science students, looking to elevate their storytelling through polished and professional graphs.
+This tutorial targets advanced data visualization enthusiasts, such as 4th-year environmental/ecological science students, looking to elevate their storytelling through polished and professional graphs. The tutorial uses publicly available data from OurWorldInData to efficiently target the learning outcomes mentioned below.
+
+Prior to tackling this tutorial, make sure that you have covered part 1 and 2 of coding club tutorials to make the most of this one :)
 
 ---
 
-### **Tutorial Aims**  
+### Tutorial Aims  
 
 1. Master advanced features of `ggplot2` for data storytelling.  
 2. Learn to use `patchwork` for creating cohesive multi-panel layouts.  
@@ -23,7 +21,7 @@ This tutorial targets advanced data visualization enthusiasts, such as 4th-year 
 
 ---
 
-### **Learning Objectives**  
+### Learning Objectives  
 
 By completing this tutorial, learners will be able to:  
 1. Utilize advanced `ggplot2` techniques, including annotations, custom themes, and secondary axes.  
@@ -32,10 +30,25 @@ By completing this tutorial, learners will be able to:
 4. Replicate BBC-style design principles, such as clarity, simplicity, and impactful storytelling.  
 
 ---
+## Downloading data
+Will be using publicly available data from OurWorldInData, consisting of ____ for relevance to BBC...
+The data for this tutorial can be downloaded from __(link to dataset)__. 
 
-### **Structure**  
+Alternatively, the repository containing the script and dataset can be forked to your own GitHub account and added as a new RStudio project by copying the HTTPS link. Follow this(insert link to repo) link to access the repo and clone. Make a new script file making sure its informative, remember, following the coding etiquette covered in previous tutorials is an important practice at this stage.  
 
-#### **Part 1: Introduction to BBC-Style Design**  
+    ```
+     # Data visualisation tutorial
+     # Your Name
+     # Date
+     # Step 1: Load the libraries that will be necessary for this tutorial
+       library(dplyr)
+       library(ggplot2)
+                
+     ```
+
+---
+
+## Part 1: Introduction to BBC-Style Design**  
 1. **What Makes a Plot "BBC-Style"?**  
    - Simplicity, clarity, accessibility, and storytelling.  
    - Examples of BBC plots and their applications in science and journalism.  
@@ -50,7 +63,7 @@ By completing this tutorial, learners will be able to:
 
 1. **Custom Themes for Clean Design**  
    - Use `theme_minimal()` as a base and extend it for a BBC-style theme:  
-     ```r
+     ```
      theme_bbc <- theme_minimal() +
        theme(
          text = element_text(family = "Helvetica", color = "black"),
