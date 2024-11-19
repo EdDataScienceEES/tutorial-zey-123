@@ -8,7 +8,7 @@
 
 _<p align="center"> **Source:** WWF </p>_
 
-### Overview
+### Introduction & Overview
 
 This tutorial explores advanced data visualization techniques in R, focusing on creating professional, BBC-style graphics using **ggplot2** and supplementary packages like **patchwork** and **scico**. By the end, learners will be equipped to produce publication-ready visuals with polished themes, cohesive color palettes, and multi-panel layouts.  
 
@@ -67,26 +67,34 @@ Simplicity, clarity, accessibility, and storytelling. Some examples of BBC plots
    ![image](https://github.com/user-attachments/assets/e05474b2-e863-4358-84c0-589d97cb84f2)
 _<p align="center"> **Source:** BBC Data Journalism cookbook </p>_
 
-To make graphics that adhere to the BBC style as seen above, certain packages need to be installed and loaded: 
+To make graphics that adhere to the BBC style as seen above and will be used to advance in data visualization through this tutorial, certain packages need to be installed and loaded: 
 
 ```
 # Install packages 
-install.packages(c("dplyr", "tidyr", "gapminder", "ggplot2", "ggalt", "forcats", "R.utils", "png","grid","ggpubr","scales","bbplot"))
+install.packages(c("dplyr", "ggplot2","patchwork","scico", "extrafont", "colorblindcheck", 
+                   "tidyr", "gapminder", "ggalt", "forcats", "R.utils", "png","grid",
+                   "ggpubr","scales","bbplot")) 
 # Load libraries
-library(dplyr) #Data manipulation (filtering, grouping, summarizing).
-library(tidyr) #Data tidying (reshaping, pivoting). 
-library(ggplot2) #Data visualization using the grammar of graphics.
-library(ggalt) #Adds advanced plot elements like dumbbell plots.
-library(forcats) #Simplifies working with categorical variables (factors).
-library (R.utils) #Utilities for file and system operations.
-library(png) #Reads and writes PNG image files.
-library(grid) #Creates and manipulates graphical objects.
-library(ggpubr) #Enhances ggplot2 with publication-ready themes and annotations.
-library(scales) #Customizes scales (axes, colors) in visualizations.
-library(bbplot) #Making ggplot graphics in BBC news style.
+# Load necessary libraries
+library(dplyr)         # Data manipulation (filter, sort, summarize)
+library(ggplot2)       # Create customizable plots and graphics
+library(patchwork)     # Combine multiple ggplot2 plots into one
+library(scico)         # Scientific color palettes for plots
+library(extrafont)     # Use custom fonts in plots
+library(colorblindcheck) # Check color-blind friendliness of plots
+library(tidyr)         # Clean and reshape data for easier analysis
+library(gapminder)     # Gapminder dataset for example visualizations
+library(ggalt)         # Add additional plot types to ggplot2
+library(forcats)       # Work with categorical data (factors)
+library(R.utils)       # Helpful utilities for various tasks
+library(png)           # Read/write PNG images
+library(grid)          # Arrange graphical objects in plots
+library(ggpubr)        # Create publication-ready plots
+library(scales)        # Scale and format axes, colors, and labels in plots
+library(bbplot)        # BBC-style plots for clean, simple visuals
 ```
 
-Once these packages are installed, we essentially got everything to start creating our lovely graphics. 
+With these packages all set up, we’ve got everything we need to dive into creating some stunning graphics. Ready to bring your data to life? Let’s do this! 
 
 ### 1.b.Understanding and using the `bbplot` package to make a simple line chart
 
@@ -135,12 +143,14 @@ This gives us the following line chart, where the `bbc_style()` function essenti
      <img width="502" alt="Screenshot 2024-11-19 at 14 35 05" src="https://github.com/user-attachments/assets/90112323-94fc-42ed-945a-5ad7bf469b2e">
 </div>
 
+> #### _If you're interested in generating different kinds of graphics like multiple line charts, bar (normal, stacked and grouped) charts, dumbell charts and histograms with the BBC style, check out [the BBC Visual and Data Journalism cookbook for R graphics](https://bbc.github.io/rcookbook/#add_annotations).This tutorial only explores the package without going into much detail as the main focus is around advanced data visualization alongside a simple introduction to the BBC theme_ :)
+
 ---
 
 ## Part 2: Advanced `ggplot2` Techniques
-Building on the foundations laid in Part 1, where you learned to create simple BBC-style plots using the `bbplot` package, this section delves deeper into enhancing storytelling through advanced ggplot2 features. While Part 1 focused on the core principles of simplicity, clarity, and accessibility in BBC-style design, here you’ll expand those skills to create more dynamic and customized visualizations.
+Building on the solid foundations you mastered in Part 1, where you learned to create simple BBC-style plots using the `bbplot` package, this section delves deeper into enhancing storytelling through advanced `ggplot2` features. While Part 1 focused on the core principles of simplicity, clarity, and accessibility in BBC-style design, here you’ll expand those skills to create more dynamic and customized visualizations.
 
-These techniques will enable you to build upon the polished aesthetics of BBC-style visuals and make your plots even more engaging and informative.
+Get ready to enhance the polished aesthetics of BBC-style visuals and transform your plots into even more engaging and informative masterpieces!🎨✨
 
 ### 2.a. Adding Annotations to Highlight Key Points
 Annotations are helpful for drawing attention to specific data points or trends in your visualization. We can use annotations with our penguin data to call out for important clusters or outliers when making a new scatter plot, showing us the relationship pengiun body mass vs flipper length. The easiest way to do this is by using the `annotate()` function. 
@@ -172,7 +182,7 @@ The exact positioning of the annotation depends on the `x` and `y` arguments. We
     labs(title = "Penguin Body Mass vs. Flipper Length", subtitle = "Annotated clusters of penguins")) #Setting plot title and subtitles.
 
 ```
-You can see what this does here, changing it from what we did above:
+You can see the magic at work here—it’s a step up from what we did earlier. Nicer, isn’t it?
 
 <div align= "center">
      <img width="496" alt="Screenshot 2024-11-19 at 17 54 53" src="https://github.com/user-attachments/assets/a540d625-a847-4410-8a84-cade46be884a">
@@ -206,36 +216,90 @@ Previously, we used the `annotate()` function to manually add annotations to spe
      <img width="500" alt="Screenshot 2024-11-19 at 18 59 58" src="https://github.com/user-attachments/assets/36b571ff-0929-4513-8294-237091259531">
 </div>
 
-As you can see, this does look a bit messy and you probably wouldn't want to use this function on scatter plots with many datapoints, but this is what this function does :). 
+As you can see, this does end up looking a bit messy- definitely not the best choise for scatter plots with many datapoints. But this is what this function does and can be particularly useful with bar graphs:). 
 
 #### Adding a line
 Finally, among the many annotation features offered by ggplot2, one important capability to highlight is the ability to add an arrow. This feature can be very useful for drawing attention to specific parts of your plot. To do this, we will use the `geom_segment` function. 
 
 ```
+# Adding arrows 
+annotated_plot + geom_curve(aes(x = 205, y = 3800, xend = 200, yend = 3700),  # Set the start and end points of the arrow. If x/yend> x/y then the curve downward curve (sad face), if otherwise than upward smile :)
+             colour = "#555555", #Setting the color of the curve to a light gray shade for subtle visibility.
+             size = 0.5, # Thickness of the curve
+             curvature = -0.1, #Determines the degree and direction of the curve; negative values create downward curves, while positive values create upward curves.
+             arrow = arrow(length = unit(0.03, "npc")))  #Adds an arrowhead to the end of the curve with a specified length of 0.03 normalized parent coordinates (npc).
 ```
 
+As specified in the above code, it is important to note that in `aes()`, the start coordinates are (x, y), and end coordinates of curve are (xend, yend); downward curves (like a frown) occur if the start is higher than the end, and upward curves (like a smile) occur if the opposite is true. This is also controlled by the `curvature` argument in `geom_curve` with negative values producing downard curves and positive values producing upward curves.
 
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-19 at 21 04 48" src="https://github.com/user-attachments/assets/832b3424-003c-4531-834f-d8d0ba30ef31">
+</div>
 
+Fantastic work! You've successfully added an arrow and mastered the art of annotating your graphics—an essential skill for creating visuals that truly tell a story. Your charts are no longer just data displays; they’re now engaging, insightful, and packed with personality! Keep going—there’s no limit to what you can create! 🚀
 
 
 ### 2.b. Add depth to your plots with secondary axes, allowing for comparisons
-Now that we know have covered many ways to annotate our graphics, we can move onto making secondary axes. Secondary axes are used to display additional information, such as a transformed version of the primary data.
+Now that you've nailed several ways to annotate your graphics, it's time to level up and dive into creating secondary axes. Secondary axes are used to display additional information, such as a transformed version of the primary data. This feature is especially useful when you want to compare metrics in different units, reveal relationships, or highlight alternative perspectives—all without overcrowding your plot. 
+
+#### Using secondary axes to compare metrics in different units
+
+We can see how this is done with our penguins dataset to show penguin body mass in both grams and pounds. 
 
 ```
 # Using a secondary y-axis to show body mass in pounds  
-secondary_axis_plot <- ggplot(penguins, aes(x = bill_length_mm, y = body_mass_g)) +  
-  geom_point(aes(color = species), size = 3) +  
-  scale_y_continuous(name = "Body Mass (g)",  
-                     sec.axis = sec_axis(~ . / 453.592, name = "Body Mass (lbs)")) +  
-  bbc_style() +  
+(secondary_axis_plot <- ggplot(penguins, aes(x = bill_length_mm, y = body_mass_g)) +  
+  geom_point(aes(color = species), size = 3) +  # Scatter plot with color-coded species  
+  scale_y_continuous(  
+    name = "Body Mass (g)",  # Primary axis label  
+    sec.axis = sec_axis(~ . / 453.592, name = "Body Mass (lbs)")  # Secondary axis transformation and label  
+  ) +  
+  bbc_style() +  # Apply BBC-style aesthetics  
   labs(title = "Penguin Body Mass and Bill Length",  
-       subtitle = "Dual-axis plot showing body mass in grams and pounds")  
-
-# Display the plot  
-secondary_axis_plot  
+    subtitle = "Dual-axis plot showing body mass in grams and pounds"  # Informative title and subtitle  
+  ))
 ```
+In this example, the secondary axis provides a dual perspective: body mass in grams (primary axis) and pounds (secondary axis). This is particularly handy for audiences who might be more familiar with one unit over the other. By visually linking both scales, you make your data more accessible and engaging to a broader audience while maintaining clarity.
 
-This plot demonstrates how you can provide more context by adding a secondary axis for an alternative unit.
+Within the `scale_y_continous` argument, `sec.axis` creates a secondary y-axis by applying a transformation to the primary y-axis values. The transformation `~ . / 453.592` converts body mass from grams to pounds (1 pound ≈ 453.592 grams).
+And `name = "Body Mass (lbs)"` assigns a label to the secondary axis to clearly indicate the units being displayed. 
+
+<div align= "center">
+    <img width="500" alt="Screenshot 2024-11-19 at 21 34 41" src="https://github.com/user-attachments/assets/0b5f1ec4-7239-4f23-8639-f679cab74f08">
+</div>
+
+#### Using secondary axes to combine line and bar charts
+This is another common use of secondary axes in data visualization. This allows for the visualization and comparison of two related but differently scaled variables in a single, easy-to-understand plot. How fun :). 
+
+```
+# Summarize data by species and calculate mean flipper length and body mass
+penguins_summary <- penguins %>%
+  group_by(species) %>%
+  summarise(mean_flipper_length = mean(flipper_length_mm, na.rm = TRUE),
+            mean_body_mass = mean(body_mass_g, na.rm = TRUE))
+
+# Create the plot
+(combined_plot <- ggplot(penguins_summary, aes(x = species)) +
+  geom_bar(aes(y = mean_flipper_length), stat = "identity", fill = "slategrey") +  #Bar plot (filled grey) for mean flipper length (primary axis).
+  geom_line(aes(y = mean_body_mass / 100), color = "salmon1", group = 1) +  # Line plot for mean body mass (secondary axis-salmon color), scaled for better alignment.
+  scale_y_continuous(name = "Mean Flipper Length (mm)",  #Define primary y-axis and secondary y-axis. Label for primary y-axis (flipper length in mm)
+                     sec.axis = sec_axis(~ . * 100, name = "Mean Body Mass (g)")) +  # Secondary axis for body mass (scaled back)
+  bbc_style() +  # Apply consistent BBC-style plot design
+  labs(title = "Penguin Flipper Length and Body Mass by Species", 
+       subtitle = "Bar and line charts with secondary axis") + 
+  theme(axis.title.y = element_text(color = 'salmon1', size = 13), # Customize axis title colors and sizes
+        axis.title.y.right = element_text(color = 'slategrey', size = 13),
+        plot.title = element_text(size = 25)))  # Adjust the title size - important to know that this can be done at times as bbc theme often times can have titles overflowing.. 
+
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-19 at 21 54 11" src="https://github.com/user-attachments/assets/7030033f-ddd6-4f40-9050-992da1f3ca8f">
+</div>
+
+What the data is showing us:
+* The bar chart displays the mean flipper length for each penguin species, highlighting the differences in flipper sizes across species.
+* The line chart overlays the mean body mass of the penguins, scaled for alignment with the flipper length values.
+* The secondary y-axis provides an alternative scale for the body mass values, showing both the flipper length in millimeters and body mass in grams on the same plot, which makes the comparison between these two variables more intuitive.
 
 
 ### 2.c. Showcase patterns across groups using faceted layouts.
