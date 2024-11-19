@@ -1,4 +1,4 @@
-### Advanced Data Visualization: Creating BBC-Style Plots in R (Part 3)
+# Advanced Data Visualization: Creating BBC-Style Plots in R (Part 3)
 ---
 > <p align="center"> Created by Zeynep Yuksel - November 2024 </p>
 ---
