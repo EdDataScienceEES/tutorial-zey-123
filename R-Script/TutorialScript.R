@@ -8,7 +8,7 @@
 # Date: November 2024
 
 ## Make sure that you have covered part 1 and 2 of coding club tutorials to make the most of this one :)
-## This tutorial uses publicly available data from OurWorldInData  to efficiently target the learning outcomes:
+## This tutorial uses the palmerpenguins dataset to efficiently target the learning outcomes:
   #1: Utilize advanced ggplot2 techniques, including annotations, custom themes, and secondary axes.
   #2: Combine multiple plots seamlessly using the patchwork package.
   #3: Apply color palettes from the scico package to ensure accessibility and visual appeal.
@@ -17,17 +17,69 @@
 
 #Step 1: Import necessary libraries making sure they are installed prior:----
 install.packages(c("ggplot2", "patchwork", "scico", "extrafont", "colorblindcheck"))
+install.packages(c("dplyr", "tidyr", "gapminder", "ggalt", "forcats", "R.utils", "png","grid","ggpubr","scales","bbplot"))
+
 library(dplyr)
 library(tidyverse)
+library(tidyr)
 library(ggplot2)
 library(patchwork)
 library(scico)
 library(extrafont)
 library (colorblindcheck)
+library(ggalt)
+library(forcats)
+library (R.utils)
+library(png)
+library(grid)
+library(ggpubr)
+library(scales)
+library(bbplot)
+
 
 #Step 2: Load dataset: ----
-global_waste <- read.csv("Datasets/share-of-global-plastic-waste-emitted-to-the-ocean.csv")
-waste_items <- read.csv("Datasets/waste-items-ocean-region.csv")
+install.packages("palmerpenguins")
+library(palmerpenguins)
+head(penguins)
+summary(penguins)
+view(penguins)
+
+# Prepare the data by grouping by year and calculating the average body mass
+line_df <- penguins %>%
+  group_by(year) %>%
+  summarise(avg_body_mass = mean(body_mass_g, na.rm = TRUE))  # #Aggregates the data into meaningful metrics (average body mass) to simplify visualization
+
+# Create a basic line plot with title and subtitle using ggplot2 - this shows us what the graph looks prior to the BBC style
+(line_plot <- ggplot(line_df, aes(x = year, y = avg_body_mass)) +
+  geom_line(colour = "#1380A1", size = 1) +  # Line plot with custom color and size
+  geom_hline(yintercept = 0, size = 1, colour = "#333333") +  # Add a horizontal line at y = 0
+  labs(title = "Penguin Body Mass Over Time", 
+       subtitle = "Average body mass of penguins per year")+ # Add title and subtitle
+    scale_x_continuous(breaks = seq(min(line_df$year), max(line_df$year), by = 1)))  # Display years as integers
+
+# Apply BBC style
+(line_plot_styled <- line_plot + bbc_style())
+
+# Finalize the plot with finalise_plot() (no need to include title and subtitle again)
+(final_plot <- finalise_plot(line_plot_styled, 
+                            source = "Data from Palmer Penguins Dataset"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #Step 3: Inspecting dataset and wrangle (check tutorials on data manipulation if this isn't clear) : ----
 # Filtering out all countries and keeping only continent data from first dataset
