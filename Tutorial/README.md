@@ -8,7 +8,7 @@
 
 _<p align="center"> **Source:** WWF </p>_
 
-### Introduction & Overview
+## Introduction & Overview
 
 This tutorial explores advanced data visualization techniques in R, focusing on creating professional, BBC-style graphics using **ggplot2** and supplementary packages like **patchwork** and **scico**. By the end, learners will be equipped to produce publication-ready visuals with polished themes, cohesive color palettes, and multi-panel layouts.  
 
