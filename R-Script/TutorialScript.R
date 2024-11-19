@@ -145,6 +145,38 @@ penguins_summary <- penguins %>%
         axis.title.y.right = element_text(color = 'slategrey', size = 13),
         plot.title = element_text(size = 25)))  # Adjust the title size - important to know that this can be done at times as bbc theme often times can have titles overflowing.. 
 
+# Part 2c- Facet by species  
+# Vertical (by column)
+(Vfaceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
+    geom_point(aes(color = species), size = 3) +  
+    facet_wrap(~species) +  # Create a panel for each species  
+    bbc_style() +  
+    labs(title = "Penguin Body Mass vs. Flipper Length",  
+         subtitle = "Faceted by species for clearer comparisons")) 
+
+#Horizontal (by row)
+(Hfaceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
+    geom_point(aes(color = species), size = 3) +  
+    facet_wrap(~species, dir="v") +  # Create a panel for each species where dir='v' changes direction of facet
+    bbc_style() +  
+    labs(title = "Penguin Body Mass vs. Flipper Length",  
+         subtitle = "Faceted by species for clearer comparisons")) 
+
+# Adding label at bottom
+(Lfaceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
+    geom_point(aes(color = species), size = 3) +  
+    facet_wrap(~species,dir="v", strip.position="bottom") +  # Create a panel for each species adding species names to the bottom using strip.position
+    bbc_style() +  
+    labs(title = "Penguin Body Mass vs. Flipper Length",  
+         subtitle = "Faceted by species for clearer comparisons")) 
+
+
+
+
+
+
+
+
 
 
 
