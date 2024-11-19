@@ -1,4 +1,4 @@
-### Advanced Data Visualization: Creating BBC-Style Plots in R with ggplot2 (Part 3)
+### Advanced Data Visualization: Creating BBC-Style Plots in R (Part 3)
 ---
 > <p align="center"> Created by Zeynep Yuksel - November 2024 </p>
 ---
@@ -93,10 +93,17 @@ library(bbplot) #Making ggplot graphics in BBC news style.
 Once these packages are installed, we essentially got everything to start creating our lovely graphics. 
 
 To start off, we can look deeper into the main package necessary for obtaining these graphs, `bbplot`and how we can use it. The `bbpolot` package provides two main functions: `bbc_style()` and `finalise_plot()`:
-* `bbc_style()`: Applies a consistent BBC-style format to your chart. This includes adjusting text size, font, color, axis lines, axis text, margins, and other standard visual elements. These design choices are guided by recommendations and input from the BBC’s design team. This function is added to your ggplot workflow <ins>after</ins> you’ve created your plot and doesn’t take any arguments. It is important to note that the bbc_style() function does not automatically set colors for plot elements like lines in line charts or bars in bar charts. You need to define these colors separately using standard ggplot2 functions while creating your chart.
-* `finalise_plot()`: Designed to prepare your BBC-style plot for publication or presentation. This function ensures that your chart adheres to specific layout standards by: a) adding a title and source (title- top, source-bottom of plot) and b)exporting your plot, saving final plot as a png with specified dimensions and resolution.
 
-Below is an example of how the `bbc_style()` can be used. This is an example for a simple line chart, using data from `palmerpenguins` package. 
+* `bbc_style()`: This function is a pre-defined ggplot theme designed to apply a consistent BBC-style aesthetic to your chart. It adjusts text size, font (Helvetica), color, axis lines, axis text, margins, and other standard visual elements to create polished, professional visuals. These design choices are guided by recommendations and input from the BBC’s design team. This function is added to your ggplot workflow <ins>after</ins> you’ve created your plot and doesn’t take any arguments. Key features include bold styling for titles, legend placement at the top, and unobtrusive gridlines. However, it is important to note that the `bbc_style()` function does not automatically set colors for plot elements like lines in line charts or bars in bar charts. You need to define these colors separately using standard ggplot2 functions while creating your chart.
+
+>For any additional customizations (e.g., changing axis text or adding annotations), apply the `theme()` function after calling the `bbc_style()`. This ensures your custom settings are not overwritten.
+
+* `finalise_plot()`: Designed to prepare your BBC-style plot for publication or presentation. This function ensures that your chart adheres to specific layout standards by: a) adding a title and source (title- top, source-bottom of plot) and b)exporting your plot, saving final plot as a png with specified dimensions and resolution.
+<ins>Function arguments:</ins> `finalise_plot(plot_name,source, save_filepath, width_pixels = 640, height_pixels = 450)`
+>_note that the `width_pixels` is set to 640px by default, and `height_pixels` is set to 450px by default_
+> this function goes beyond simply saving your chart. It also aligns the title and subtitle to the left, following BBC graphic standards while also giving you the opportunity to add a footer with the BBC logo on the right (if function `logo_image_path`= ____ is added to finalise plot command).
+
+Below is an example of how the `bbc_style()` and its two functions can be used. This is an example for a simple line chart, using data from `palmerpenguins` package. 
 
 ```
 # Prepare the data by grouping by year and calculating the average body mass
@@ -104,23 +111,30 @@ line_df <- penguins %>%
   group_by(year) %>%
   summarise(avg_body_mass = mean(body_mass_g, na.rm = TRUE))  # #Aggregates the data into meaningful metrics (average body mass) to simplify visualization
 
-# Create a basic line plot with title and subtitle using ggplot2 - this shows us what the graph looks prior to the BBC style
+# Create a basic line plot 
 (line_plot <- ggplot(line_df, aes(x = year, y = avg_body_mass)) +
   geom_line(colour = "#1380A1", size = 1) +  # Line plot with custom color and size
   geom_hline(yintercept = 0, size = 1, colour = "#333333") +  # Add a horizontal line at y = 0
+  bbc_style() +
+theme(panel.grid.major.x = element_line(color="#cbcbcb"), # Additional customizations (gridlines) added following bbc_style() command...
+          panel.grid.major.y=element_blank())+
   labs(title = "Penguin Body Mass Over Time", 
        subtitle = "Average body mass of penguins per year")+ # Add title and subtitle
     scale_x_continuous(breaks = seq(min(line_df$year), max(line_df$year), by = 1)))  # Display years as integers
 
-# Apply BBC style
-(line_plot_styled <- line_plot + bbc_style())
+# Finalize the plot with finalise_plot() and save out finished chart once all modifications have been completed
 
-# Finalize the plot with finalise_plot() (no need to include title and subtitle again)
-(final_plot <- finalise_plot(line_plot_styled, 
-                            source = "Data from Palmer Penguins Dataset"))
+final_plot<- finalise_plot(plot_name = line_plot,
+              source = "Source: Data from Palmer Penguins Dataset",
+              save_filepath = "Tutorial/Figure1-LineChart.png",
+              width_pixels = 640,
+              height_pixels = 450)
+
 ```
+This gives us the following line chart, where the `bbc_style()` function essentially modified arguments in the `theme` function of `ggplot2`: 
+
 <div align= "center">
-    <img width="402" alt="Screenshot 2024-11-19 at 11 57 53" src="https://github.com/user-attachments/assets/477eb57b-eea3-47c1-9aa9-ac85b5cdce6b">
+     <img width="402" alt="Screenshot 2024-11-19 at 14 35 05" src="https://github.com/user-attachments/assets/90112323-94fc-42ed-945a-5ad7bf469b2e">
 </div>
 
 
