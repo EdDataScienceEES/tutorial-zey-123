@@ -70,6 +70,56 @@ final_plot<- finalise_plot(plot_name = line_plot,
               height_pixels = 450)
 
 
+# Part 2a- Annotations (Highlighting a key year in the penguins dataset)  
+(annotated_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  #Mapping the x-axis to flipper_length_mm and the y-axis to body_mass_g.
+    geom_point(aes(color = species), size = 3) +  #Plotting individual penguins as points on the chart, and coloring these points based on the species of penguin, setting size to 3. 
+    annotate("text", x = 205, y = 4100, label = "Note this cluster!", size = 7, color = "black", family="Helvetica") +  #Placing a text annotation at the specified coordinates. Sets the annotation's text to "Note this cluster!" with a font size of 7 and color black.
+    bbc_style() +  #Applying BBC-style formatting
+    labs(title = "Penguin Body Mass vs. Flipper Length", subtitle = "Annotated clusters of penguins")) #Setting plot title and subtitles.
+
+
+# Part 2a - adding line breaks
+(annotated_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
+    geom_point(aes(color = species), size = 3) +
+    annotate("text", x = 205, y = 4100, label = "Note\n this\n cluster!", size = 7, color = "black", family="Helvetica", lineheight = 0.8) +
+    bbc_style() +  
+    labs(title = "Penguin Body Mass vs. Flipper Length", subtitle = "Annotated clusters of penguins")) #Setting plot title and subtitles.
+
+
+
+
+# Adding labels based on data
+
+(labelled_clusters <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species), size = 3) +
+  geom_label(aes(label = round(body_mass_g, 0)),   # Add labels with rounded body mass values
+             hjust = 0.5, # Horizontal justification (centered)
+             vjust = -0.5,  # Vertical adjustment (move labels slightly above points)
+             colour = "black",  # Border color of the label box
+             fill ="white",  # Background color of the label box
+             label.size = 0.1,  # # Thickness of the label's border - making it easier to read
+             family = "Helvetica",  # Font family for the label text
+             size = 2) +  # Adjust label size
+  bbc_style() +  # Apply BBC-style aesthetics
+  labs(title = "Penguin Body Mass vs. Flipper Length", 
+       subtitle = "Labels based on penguin body mass"))
+
+
+# Adding arrows (LEFT OFF HERE)
+
+labelled_clusters+ geom_curve(aes(x = 1979, y = 45, xend = 1965, yend = 43), 
+                              colour = "#555555", 
+                              size=0.5, 
+                              curvature = -0.2,
+                              arrow = arrow(length = unit(0.03, "npc")))
+
+annotated_plot +
+  geom_curve(aes(x = flipper_length_mm[1], y = body_mass_g[1], 
+                 xend = flipper_length_mm[2], yend = body_mass_g[2]),  # Set the start and end points of the arrow
+             colour = "#555555", 
+             size = 0.5, 
+             curvature = -0.2, 
+             arrow = arrow(length = unit(0.03, "npc")))  # Add arrow between two points
 
 
 
@@ -77,51 +127,6 @@ final_plot<- finalise_plot(plot_name = line_plot,
 
 
 
-
-
-
-
-
-
-
-#Step 3: Inspecting dataset and wrangle (check tutorials on data manipulation if this isn't clear) : ----
-# Filtering out all countries and keeping only continent data from first dataset
-global_waste_continent <- global_waste %>%
-  filter(Entity %in% c('Africa', 
-                       'Asia', 
-                       'Europe', 
-                       'Micronesia', 
-                       'North America', 
-                       'Oceania', 
-                       'South America'))
-# Identifying top 5 entities in Waste Items Dataset
-top_items <- waste_items %>%
-  group_by(Entity) %>%  # Grouping  data by variable 'Entity'.Subsequent operations are performed separately within each Entity group.
-  summarise(count = n()) %>%  # Counting the number of rows (observations) within each Entity group. n() returns the number of rows, and this count is stored in a new column called count.
-  arrange(desc(count)) %>%  # Sorting resulting grouped data in descending order based on the count column, so the entities with the highest counts appear at the top.
-  head(5)  # Taking first 5 rows from the sorted data, giving the top 5 entities with the highest counts.
-
-# Only keeping rows where Entity is in the specified list of top 5 values
-waste_items <- waste_items %>%
-  filter(Entity %in% c('Bottle lids', 
-                       'Cans (drink)', 
-                       'Cans (food)', 
-                       'Clothing', 
-                       'Fishing net'))
-# Inspecting cleaned waste items data
-head(waste_items)
-str(waste_items_long)
-
-# Converting first dataset (waste_items) to long format
-waste_items_long <- gather(waste_items, Region, Amount,  # Gather function takes the dataset waste_items and reshapes it by:
-                             c(High.income, 
-                               East.Asia.and.Pacific, 
-                               South.Asia,  
-                               Latin.America.and.the.Carribean,
-                               Sub.Saharan.Africa,
-                               North.Africa.and.Middle.East))  # Creating a new column called Region, storing the names of the original columns as values.
-waste_items_long <- mutate(waste_items_long, 
-                           Region = gsub("\\.", " ", Region))  # Replace dots with spaces for better and advanced visual appearance
 
 
 
