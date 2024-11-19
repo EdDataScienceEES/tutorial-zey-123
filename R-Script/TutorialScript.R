@@ -49,22 +49,25 @@ line_df <- penguins %>%
   group_by(year) %>%
   summarise(avg_body_mass = mean(body_mass_g, na.rm = TRUE))  # #Aggregates the data into meaningful metrics (average body mass) to simplify visualization
 
-# Create a basic line plot with title and subtitle using ggplot2 - this shows us what the graph looks prior to the BBC style
+# Create a basic line plot 
 (line_plot <- ggplot(line_df, aes(x = year, y = avg_body_mass)) +
   geom_line(colour = "#1380A1", size = 1) +  # Line plot with custom color and size
   geom_hline(yintercept = 0, size = 1, colour = "#333333") +  # Add a horizontal line at y = 0
+  bbc_style() +
+    theme(panel.grid.major.x = element_line(color="#cbcbcb"), 
+          panel.grid.major.y=element_blank())+
   labs(title = "Penguin Body Mass Over Time", 
        subtitle = "Average body mass of penguins per year")+ # Add title and subtitle
     scale_x_continuous(breaks = seq(min(line_df$year), max(line_df$year), by = 1)))  # Display years as integers
 
-# Apply BBC style
-(line_plot_styled <- line_plot + bbc_style())
 
-# Finalize the plot with finalise_plot() (no need to include title and subtitle again)
-(final_plot <- finalise_plot(line_plot_styled, 
-                            source = "Data from Palmer Penguins Dataset"))
+# Finalize the plot with finalise_plot() and save out finished chart once all modifications have been completed
 
-
+final_plot<- finalise_plot(plot_name = line_plot,
+              source = "Source: Data from Palmer Penguins Dataset",
+              save_filepath = "Figure1-LineChart.png",
+              width_pixels = 640,
+              height_pixels = 450)
 
 
 
