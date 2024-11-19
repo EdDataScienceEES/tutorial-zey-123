@@ -75,7 +75,6 @@ install.packages(c("dplyr", "ggplot2","patchwork","scico", "extrafont", "colorbl
                    "tidyr", "gapminder", "ggalt", "forcats", "R.utils", "png","grid",
                    "ggpubr","scales","bbplot")) 
 # Load libraries
-# Load necessary libraries
 library(dplyr)         # Data manipulation (filter, sort, summarize)
 library(ggplot2)       # Create customizable plots and graphics
 library(patchwork)     # Combine multiple ggplot2 plots into one
@@ -236,7 +235,7 @@ As specified in the above code, it is important to note that in `aes()`, the sta
      <img width="500" alt="Screenshot 2024-11-19 at 21 04 48" src="https://github.com/user-attachments/assets/832b3424-003c-4531-834f-d8d0ba30ef31">
 </div>
 
-Fantastic work! You've successfully added an arrow and mastered the art of annotating your graphics—an essential skill for creating visuals that truly tell a story. Your charts are no longer just data displays; they’re now engaging, insightful, and packed with personality! Keep going—there’s no limit to what you can create! 🚀
+> Fantastic work! You've successfully added an arrow and mastered the art of annotating your graphics—an essential skill for creating visuals that truly tell a story. Your charts are no longer just data displays; they’re now engaging, insightful, and packed with personality! Keep going—there’s no limit to what you can create! 🚀
 
 
 ### 2.b. Add depth to your plots with secondary axes, allowing for comparisons
@@ -269,7 +268,7 @@ And `name = "Body Mass (lbs)"` assigns a label to the secondary axis to clearly 
 </div>
 
 #### Using secondary axes to combine line and bar charts
-This is another common use of secondary axes in data visualization. This allows for the visualization and comparison of two related but differently scaled variables in a single, easy-to-understand plot. How fun :). 
+This is another common use of secondary axes in data visualization. This allows for the visualization and comparison of two related but differently scaled variables in a single, easy-to-understand plot. 
 
 ```
 # Summarize data by species and calculate mean flipper length and body mass
@@ -301,22 +300,58 @@ What the data is showing us:
 * The line chart overlays the mean body mass of the penguins, scaled for alignment with the flipper length values.
 * The secondary y-axis provides an alternative scale for the body mass values, showing both the flipper length in millimeters and body mass in grams on the same plot, which makes the comparison between these two variables more intuitive.
 
+> Yay! We’ve mastered secondary axes! First, we turned penguin body mass from grams to pounds on a secondary axis, making it easier for different audiences to grasp the data in their preferred units- especially important for graphics published on universal platforms like the BBC, where clarity and accessibility are key. Then, we had some fun by combining a bar chart (for flipper length) and a line chart (for body mass) in one plot, each with its own scale! With secondary axes, we can compare two related variables without making our plot look cluttered. It’s like giving your data a stylish makeover while keeping everything clear and easy to read. How cool is that?
 
 ### 2.c. Showcase patterns across groups using faceted layouts.
 Now that we know how to annotate our graphics and set secondary axes, we can move onto faceting. Faceting splits data into subplots, making it easier to identify trends within groups.
 
-```
-# Facet by species  
-faceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
-  geom_point(aes(color = species), size = 3) +  
-  facet_wrap(~species) +  # Create a panel for each species  
-  bbc_style() +  
-  labs(title = "Penguin Body Mass vs. Flipper Length",  
-       subtitle = "Faceted by species for clearer comparisons")  
+`facet_wrap()` is a powerful function in ggplot2 for creating small multiples. Unlike `facet_grid()`, it is used for a single categorical variable. This function creates multiple plots (or facets) based on the levels of that variable, wrapping them into a grid. You can specify the variable for faceting using `~`, and it will automatically arrange the facets into rows and columns, depending on the available space. This makes it especially useful when you want to display a large number of subplots without worrying about the combination of two categorical variables. 
 
-# Display the plot  
-faceted_plot  
+Just like `facet_grid()`, you can control the scales of the axes with the `scales` argument, and `facet_wrap()` will give you a clean, organized way to compare different subsets of your data.
+
 ```
+# Facet by species
+# Vertical (by column)
+(Vfaceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
+    geom_point(aes(color = species), size = 3) +  
+    facet_wrap(~species) +  # Create a panel for each species  
+    bbc_style() +  
+    labs(title = "Penguin Body Mass vs. Flipper Length",  
+         subtitle = "Faceted by species for clearer comparisons")) 
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-19 at 22 27 35" src="https://github.com/user-attachments/assets/41d9e3ca-0de2-4a24-aeab-a613428428a4">
+</div>
+
+As you can see, something seems off—the x-axis (flipper length) doesn't fit properly, which suggests that a horizontal arrangement of facets might work better for this specific example. We can fix this easily by adding the `dir='v'` command in `facet_wrap`.
+
+```
+#Horizontal (by row)
+(Hfaceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
+    geom_point(aes(color = species), size = 3) +  
+    facet_wrap(~species, dir="v") +  # Create a panel for each species where dir='v' changes direction of facet
+    bbc_style() +  
+    labs(title = "Penguin Body Mass vs. Flipper Length",  
+         subtitle = "Faceted by species for clearer comparisons")) 
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-19 at 22 31 52" src="https://github.com/user-attachments/assets/c2ccfc3b-bb6d-4b20-81d8-936fc659e38a">
+</div>
+
+Even better! We can take it up a notch by adjusting the layout so that the species names elegantly sit at the bottom of the facets. All it takes is adding the magical `strip.position = 'bottom'` command!
+
+```
+# Adding label at bottom
+(Lfaceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
+    geom_point(aes(color = species), size = 3) +  
+    facet_wrap(~species, strip.position="bottom") +  # Create a panel for each species adding species names to the bottom using strip.position
+    bbc_style() +  
+    labs(title = "Penguin Body Mass vs. Flipper Length",  
+         subtitle = "Faceted by species for clearer comparisons")) 
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-19 at 22 35 38" src="https://github.com/user-attachments/assets/db949b5d-b1f1-42c3-82cf-777b8130a6e9">
+</div>
 
 This creates a panel for each penguin species, allowing for comparisons across categories.
 
