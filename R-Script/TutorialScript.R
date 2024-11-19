@@ -15,10 +15,10 @@
   #4: Replicate BBC-style design principles, such as clarity, simplicity, and impactful storytelling.
 
 
-#Step 1: Import necessary libraries making sure they are installed prior:----
-install.packages(c("ggplot2", "patchwork", "scico", "extrafont", "colorblindcheck"))
-install.packages(c("dplyr", "tidyr", "gapminder", "ggalt", "forcats", "R.utils", "png","grid","ggpubr","scales","bbplot"))
-
+#Part 1a- Import necessary libraries making sure they are installed prior:----
+install.packages(c("dplyr", "ggplot2","patchwork","scico", "extrafont", "colorblindcheck", 
+                   "tidyr", "gapminder", "ggalt", "forcats", "R.utils", "png","grid",
+                   "ggpubr","scales","bbplot")) 
 library(dplyr)
 library(tidyverse)
 library(tidyr)
@@ -37,19 +37,19 @@ library(scales)
 library(bbplot)
 
 
-#Step 2: Load dataset: ----
+#Part 1a- Load dataset: ----
 install.packages("palmerpenguins")
 library(palmerpenguins)
 head(penguins)
 summary(penguins)
 view(penguins)
 
-# Prepare the data by grouping by year and calculating the average body mass
+# Part 1b - Prepare the data by grouping by year and calculating the average body mass----
 line_df <- penguins %>%
   group_by(year) %>%
   summarise(avg_body_mass = mean(body_mass_g, na.rm = TRUE))  # #Aggregates the data into meaningful metrics (average body mass) to simplify visualization
 
-# Create a basic line plot 
+# Part 1b- Create a basic line plot ----
 (line_plot <- ggplot(line_df, aes(x = year, y = avg_body_mass)) +
   geom_line(colour = "#1380A1", size = 1) +  # Line plot with custom color and size
   geom_hline(yintercept = 0, size = 1, colour = "#333333") +  # Add a horizontal line at y = 0
@@ -61,7 +61,7 @@ line_df <- penguins %>%
     scale_x_continuous(breaks = seq(min(line_df$year), max(line_df$year), by = 1)))  # Display years as integers
 
 
-# Finalize the plot with finalise_plot() and save out finished chart once all modifications have been completed
+# Part 1b- Finalize the plot with finalise_plot() and save out finished chart once all modifications have been completed ----
 
 final_plot<- finalise_plot(plot_name = line_plot,
               source = "Source: Data from Palmer Penguins Dataset",
@@ -70,7 +70,7 @@ final_plot<- finalise_plot(plot_name = line_plot,
               height_pixels = 450)
 
 
-# Part 2a- Annotations (Highlighting a key year in the penguins dataset)  
+# Part 2a- Annotations (Highlighting a key year in the penguins dataset)  ----
 (annotated_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  #Mapping the x-axis to flipper_length_mm and the y-axis to body_mass_g.
     geom_point(aes(color = species), size = 3) +  #Plotting individual penguins as points on the chart, and coloring these points based on the species of penguin, setting size to 3. 
     annotate("text", x = 205, y = 4100, label = "Note this cluster!", size = 7, color = "black", family="Helvetica") +  #Placing a text annotation at the specified coordinates. Sets the annotation's text to "Note this cluster!" with a font size of 7 and color black.
@@ -78,7 +78,7 @@ final_plot<- finalise_plot(plot_name = line_plot,
     labs(title = "Penguin Body Mass vs. Flipper Length", subtitle = "Annotated clusters of penguins")) #Setting plot title and subtitles.
 
 
-# Part 2a - adding line breaks
+# Part 2a - adding line breaks ----
 (annotated_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
     geom_point(aes(color = species), size = 3) +
     annotate("text", x = 205, y = 4100, label = "Note\n this\n cluster!", size = 7, color = "black", family="Helvetica", lineheight = 0.8) +
@@ -86,10 +86,7 @@ final_plot<- finalise_plot(plot_name = line_plot,
     labs(title = "Penguin Body Mass vs. Flipper Length", subtitle = "Annotated clusters of penguins")) #Setting plot title and subtitles.
 
 
-
-
-# Adding labels based on data
-
+# Part 2a- Adding labels based on data ----
 (labelled_clusters <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species), size = 3) +
   geom_label(aes(label = round(body_mass_g, 0)),   # Add labels with rounded body mass values
@@ -105,23 +102,48 @@ final_plot<- finalise_plot(plot_name = line_plot,
        subtitle = "Labels based on penguin body mass"))
 
 
-# Adding arrows (LEFT OFF HERE)
-
-labelled_clusters+ geom_curve(aes(x = 1979, y = 45, xend = 1965, yend = 43), 
-                              colour = "#555555", 
-                              size=0.5, 
-                              curvature = -0.2,
-                              arrow = arrow(length = unit(0.03, "npc")))
-
-annotated_plot +
-  geom_curve(aes(x = flipper_length_mm[1], y = body_mass_g[1], 
-                 xend = flipper_length_mm[2], yend = body_mass_g[2]),  # Set the start and end points of the arrow
-             colour = "#555555", 
-             size = 0.5, 
-             curvature = -0.2, 
-             arrow = arrow(length = unit(0.03, "npc")))  # Add arrow between two points
+# Part 2a- Adding arrows ----
+annotated_plot + geom_curve(aes(x = 205, y = 3800, xend = 200, yend = 3700),  # Set the start and end points of the arrow. If x/yend> x/y then the curve downward curve (sad face), if otherwise than upward smile :)
+             colour = "#555555", #Setting the color of the curve to a light gray shade for subtle visibility.
+             size = 0.5, # Thickness of the curve
+             curvature = -0.1, #Determines the degree and direction of the curve; negative values create downward curves, while positive values create upward curves.
+             arrow = arrow(length = unit(0.03, "npc")))  #Adds an arrowhead to the end of the curve with a specified length of 0.03 normalized parent coordinates (npc).
 
 
+# Part 2b- Using a secondary y-axis to show body mass in pounds  ----
+
+(secondary_axis_plot <- ggplot(penguins, aes(x = bill_length_mm, y = body_mass_g)) +  
+  geom_point(aes(color = species), size = 3) +  # Scatter plot with color-coded species  
+  scale_y_continuous(  
+    name = "Body Mass (g)",  # Primary axis label  
+    sec.axis = sec_axis(~ . / 453.592, name = "Body Mass (lbs)")  # Secondary axis transformation and label  
+  ) +  
+  bbc_style() +  # Apply BBC-style aesthetics  
+  labs(title = "Penguin Body Mass and Bill Length",  
+    subtitle = "Dual-axis plot showing body mass in grams and pounds"  # Informative title and subtitle  
+  ))
+
+ 
+# Part 2b- Using secondary axes to combine line and bar charts ----
+
+# Summarize data by species and calculate mean flipper length and body mass
+penguins_summary <- penguins %>%
+  group_by(species) %>%
+  summarise(mean_flipper_length = mean(flipper_length_mm, na.rm = TRUE),
+            mean_body_mass = mean(body_mass_g, na.rm = TRUE))
+
+# Create the plot
+(combined_plot <- ggplot(penguins_summary, aes(x = species)) +
+  geom_bar(aes(y = mean_flipper_length), stat = "identity", fill = "slategrey") +  #Bar plot (filled grey) for mean flipper length (primary axis).
+  geom_line(aes(y = mean_body_mass / 100), color = "salmon1", group = 1) +  # Line plot for mean body mass (secondary axis-salmon color), scaled for better alignment.
+  scale_y_continuous(name = "Mean Flipper Length (mm)",  #Define primary y-axis and secondary y-axis. Label for primary y-axis (flipper length in mm)
+                     sec.axis = sec_axis(~ . * 100, name = "Mean Body Mass (g)")) +  # Secondary axis for body mass (scaled back)
+  bbc_style() +  # Apply consistent BBC-style plot design
+  labs(title = "Penguin Flipper Length and Body Mass by Species", 
+       subtitle = "Bar and line charts with secondary axis") + 
+  theme(axis.title.y = element_text(color = 'salmon1', size = 13), # Customize axis title colors and sizes
+        axis.title.y.right = element_text(color = 'slategrey', size = 13),
+        plot.title = element_text(size = 25)))  # Adjust the title size - important to know that this can be done at times as bbc theme often times can have titles overflowing.. 
 
 
 
@@ -130,37 +152,12 @@ annotated_plot +
 
 
 
-#Step 4: Data visualization: ----
 
-## Visualization 1: Line Plot with Advanced ggplot2 Features
-# Show global waste trends for each continent
-(ggplot(global_waste_continent, aes(x = Year, y = Share.of.global.plastics.emitted.to.ocean, color = Entity)) +
-  geom_line(size = 1.2) +
-  scale_color_scico_d(palette = "roma") +
-  labs(title = "Global Plastic Waste Trends by Continent",
-       subtitle = "Percentage of global plastic waste emitted to the ocean",
-       x = "Year",
-       y = "Plastic Waste (%)",
-       color = "Continent") +
-  theme_minimal(base_family = "Arial") +
-  theme(plot.title = element_text(size = 18, face = "bold"),
-        plot.subtitle = element_text(size = 14),
-        legend.position = "bottom") +
-  scale_y_continuous(sec.axis = sec_axis(~.*1, name = "Secondary Axis Example")))
 
-## Visualization 2: Stacked Bar Plot with Custom Theme
-# Display top waste items by region
-ggplot(waste_items_long, aes(x = Region, y = Amount, fill = Entity)) +
-  geom_bar(stat = "identity", position = "stack") +
-  scale_fill_scico_d(palette = "batlow") +
-  labs(title = "Top Waste Items in Different Regions",
-       x = "Region",
-       y = "Amount of Waste",
-       fill = "Waste Item") +
-  theme_classic() +
-  theme(text = element_text(family = "Arial"),
-        axis.text.x = element_text(angle = 45, hjust = 1),
-        plot.title = element_text(size = 18, face = "bold"))
+
+
+
+
 
 ## Visualization 3: Combining Plots with patchwork
 # Combine the two plots
