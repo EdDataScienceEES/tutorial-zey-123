@@ -7,9 +7,9 @@
 
 This tutorial explores advanced data visualization techniques in R, focusing on creating professional, BBC-style graphics using **ggplot2** and supplementary packages like **patchwork** and **scico**. By the end, learners will be equipped to produce publication-ready visuals with polished themes, cohesive color palettes, and multi-panel layouts.  
 
-This tutorial targets advanced data visualization enthusiasts, such as 4th-year environmental/ecological science students, looking to elevate their storytelling through polished and professional graphs. The tutorial uses publicly available data from OurWorldInData to efficiently target the learning outcomes mentioned below.
+This tutorial targets advanced data visualization enthusiasts, such as 4th-year environmental/ecological science students, looking to elevate their storytelling through polished and professional graphs. The tutorial uses the `palmerpenguins` package on R, which is a dataset containing information on three penguin species (Adelie, Chinstrap and Gentoo) from the Palmer Archipelago, Antarctica. 
 
-Prior to tackling this tutorial, make sure that you have covered part 1 and 2 of coding club tutorials to make the most of this one :)
+Prior to tackling this tutorial, make sure that you have covered part 1 and 2 of coding club Data Visualisation tutorials to make the most of this one :)
 
 ---
 
@@ -30,38 +30,109 @@ By completing this tutorial, learners will be able to:
 4. Replicate BBC-style design principles, such as clarity, simplicity, and impactful storytelling.  
 
 ---
-## Downloading data
-Will be using publicly available data from OurWorldInData, consisting of ____ for relevance to BBC...
-The data for this tutorial can be downloaded from __(link to dataset)__. 
+## Installing data
+We will be using the `palmerpenguins` package on R, which contains two datasets (`penguins` and `penguins_raw`). We will be using the `penguins` dataset as it is simplified and ready to use, containing data for 344 penguins of 3 different species.
 
-Alternatively, the repository containing the script and dataset can be forked to your own GitHub account and added as a new RStudio project by copying the HTTPS link. Follow this(insert link to repo) link to access the repo and clone. Make a new script file making sure its informative, remember, following the coding etiquette covered in previous tutorials is an important practice at this stage.  
+This dataset is particularly relevant for creating BBC-style plots as it provides a clean, well-structured dataset with distinct categorical variables (species) and quantitative variables (bill length, flipper length, body mass, etc.), which are ideal for showcasing clear and impactful visualizations. BBC-style plots emphasize clarity and effective storytelling, and the penguins dataset allows us to explore and visualize data patterns in a way that aligns with these principles, such as comparing trends, emphasizing key data points, and maintaining an engaging yet simple design.
 
-    ```
-     # Data visualisation tutorial
+To install:
+```
+install.packages("palmerpenguins")
+library(palmerpenguins)
+# To explore the dataset (a useful practice):
+head(penguins)
+view(penguins)
+```
+
+[click here to read more on this dataset](https://allisonhorst.github.io/palmerpenguins/) 
+
+~~Alternatively, the repository containing the script and dataset can be forked to your own GitHub account and added as a new RStudio project by copying the HTTPS link. Follow this(insert link to repo) link to access the repo and clone. Make a new script file making sure its informative, remember, following the coding etiquette covered in previous tutorials is an important practice at this stage.~~
+
+```
+     # Data visualisation tutorial (part 3)
      # Your Name
      # Date
      # Step 1: Load the libraries that will be necessary for this tutorial
+
        library(dplyr)
        library(ggplot2)
                 
-     ```
+```
 
 ---
 
-## Part 1: Introduction to BBC-Style Design**  
-1. **What Makes a Plot "BBC-Style"?**  
+## Part 1: Introduction to BBC-Style Design 
+### 1.a. What Makes a Plot "BBC-Style" and the necessary libraries   
    - Simplicity, clarity, accessibility, and storytelling.  
-   - Examples of BBC plots and their applications in science and journalism.  
+   - Examples of BBC plots and their applications in science and journalism:
+  
+   ![image](https://github.com/user-attachments/assets/e05474b2-e863-4358-84c0-589d97cb84f2)
 
-2. **Dataset Overview**  
+To make graphics that adhere to the BBC style as seen above, certain packages need to be installed and loaded: 
+
+```
+# Install packages 
+install.packages(c("dplyr", "tidyr", "gapminder", "ggplot2", "ggalt", "forcats", "R.utils", "png","grid","ggpubr","scales","bbplot"))
+# Load libraries
+library(dplyr) #Data manipulation (filtering, grouping, summarizing).
+library(tidyr) #Data tidying (reshaping, pivoting). 
+library(ggplot2) #Data visualization using the grammar of graphics.
+library(ggalt) #Adds advanced plot elements like dumbbell plots.
+library(forcats) #Simplifies working with categorical variables (factors).
+library (R.utils) #Utilities for file and system operations.
+library(png) #Reads and writes PNG image files.
+library(grid) #Creates and manipulates graphical objects.
+library(ggpubr) #Enhances ggplot2 with publication-ready themes and annotations.
+library(scales) #Customizes scales (axes, colors) in visualizations.
+library(bbplot) #Making ggplot graphics in BBC news style.
+```
+
+Once these packages are installed, we essentially got everything to start creating our lovely graphics. 
+
+To start off, we can look deeper into the main package necessary for obtaining these graphs, `bbplot`and how we can use it. The `bbpolot` package provides two main functions: `bbc_style()` and `finalise_plot()`:
+* `bbc_style()`: Applies a consistent BBC-style format to your chart. This includes adjusting text size, font, color, axis lines, axis text, margins, and other standard visual elements. These design choices are guided by recommendations and input from the BBC’s design team. This function is added to your ggplot workflow <ins>after</ins> you’ve created your plot and doesn’t take any arguments. It is important to note that the bbc_style() function does not automatically set colors for plot elements like lines in line charts or bars in bar charts. You need to define these colors separately using standard ggplot2 functions while creating your chart.
+* `finalise_plot()`: Designed to prepare your BBC-style plot for publication or presentation. This function ensures that your chart adheres to specific layout standards by: a) adding a title and source (title- top, source-bottom of plot) and b)exporting your plot, saving final plot as a png with specified dimensions and resolution.
+
+Below is an example of how the `bbc_style()` can be used. This is an example for a simple line chart, using data from `palmerpenguins` package. 
+
+```
+# Prepare the data by grouping by year and calculating the average body mass
+line_df <- penguins %>%
+  group_by(year) %>%
+  summarise(avg_body_mass = mean(body_mass_g, na.rm = TRUE))  # #Aggregates the data into meaningful metrics (average body mass) to simplify visualization
+
+# Create a basic line plot with title and subtitle using ggplot2 - this shows us what the graph looks prior to the BBC style
+(line_plot <- ggplot(line_df, aes(x = year, y = avg_body_mass)) +
+  geom_line(colour = "#1380A1", size = 1) +  # Line plot with custom color and size
+  geom_hline(yintercept = 0, size = 1, colour = "#333333") +  # Add a horizontal line at y = 0
+  labs(title = "Penguin Body Mass Over Time", 
+       subtitle = "Average body mass of penguins per year")+ # Add title and subtitle
+    scale_x_continuous(breaks = seq(min(line_df$year), max(line_df$year), by = 1)))  # Display years as integers
+
+# Apply BBC style
+(line_plot_styled <- line_plot + bbc_style())
+
+# Finalize the plot with finalise_plot() (no need to include title and subtitle again)
+(final_plot <- finalise_plot(line_plot_styled, 
+                            source = "Data from Palmer Penguins Dataset"))
+```
+<div align= "center">
+    <img width="402" alt="Screenshot 2024-11-19 at 11 57 53" src="https://github.com/user-attachments/assets/477eb57b-eea3-47c1-9aa9-ac85b5cdce6b">
+</div>
+
+
+
+
+
+### 1.b. **Dataset Overview**  
    - Use the **Global Biodiversity Indicators** dataset (or similar public datasets).  
    - Brief explanation of key variables (e.g., species richness, time trends, regions).  
 
 ---
 
-#### **Part 2: Advanced `ggplot2` Techniques**  
+## Part 2: Advanced `ggplot2` Techniques
 
-1. **Custom Themes for Clean Design**  
+### 2.a. Custom Themes for Clean Design 
    - Use `theme_minimal()` as a base and extend it for a BBC-style theme:  
      ```
      theme_bbc <- theme_minimal() +
@@ -73,24 +144,24 @@ Alternatively, the repository containing the script and dataset can be forked to
        )
      ```
 
-2. **Annotations for Context**  
+### 2.b. Annotations for Context
    - Add meaningful annotations with `annotate()`:  
      ```r
      annotate("text", x = 2000, y = 50, label = "Biodiversity decline begins", size = 4)
      ```
 
-3. **Secondary Axes for Comparisons**  
+### 2.c. Secondary Axes for Comparisons 
    - Example: Overlay biodiversity trends with temperature anomalies:  
      ```r
      scale_y_continuous(sec.axis = sec_axis(~., name = "Temperature Anomaly"))
      ```
 
-4. **Using Custom Fonts and Titles**  
+### 2.d. Using Custom Fonts and Titles
    - Apply BBC-style fonts using the `extrafont` package.
 
 ---
 
-#### **Part 3: Cohesive Multi-Panel Layouts with `patchwork`**  
+## **Part 3: Cohesive Multi-Panel Layouts with `patchwork`**  
 
 1. **Combining Plots into a Story**  
    - Example: Compare biodiversity trends across continents side by side.  
@@ -107,7 +178,7 @@ Alternatively, the repository containing the script and dataset can be forked to
 
 ---
 
-#### **Part 4: Applying Accessible and Aesthetic Color Palettes with `scico`**  
+## **Part 4: Applying Accessible and Aesthetic Color Palettes with `scico`**  
 
 1. **Introduction to `scico`**  
    - Highlight benefits: perceptually uniform, colorblind-friendly palettes.  
@@ -124,7 +195,7 @@ Alternatively, the repository containing the script and dataset can be forked to
 
 ---
 
-#### **Part 5: Putting It All Together—Creating a Complete BBC-Style Plot**  
+##  **Part 5: Putting It All Together—Creating a Complete BBC-Style Plot**  
 
 1. **Combine Techniques into a Final Visualization**  
    - Incorporate all elements: advanced `ggplot2` features, `patchwork` layouts, and `scico` color palettes.  
@@ -134,7 +205,7 @@ Alternatively, the repository containing the script and dataset can be forked to
 
 ---
 
-#### **Part 6: Challenges and Extensions**  
+##  **Part 6: Challenges and Extensions**  
 
 1. **Recreate a BBC Plot**  
    - Challenge learners to replicate a provided example using real-world data.  
@@ -160,8 +231,6 @@ Alternatively, the repository containing the script and dataset can be forked to
      ```r
      install.packages(c("ggplot2", "patchwork", "scico", "extrafont", "colorblindcheck"))
      ```  
-
----
 
 ### **Creativity**  
 
