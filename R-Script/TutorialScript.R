@@ -54,8 +54,8 @@ line_df <- penguins %>%
   geom_line(colour = "#1380A1", size = 1) +  # Line plot with custom color and size
   geom_hline(yintercept = 0, size = 1, colour = "#333333") +  # Add a horizontal line at y = 0
   bbc_style() +
-    theme(panel.grid.major.x = element_line(color="#cbcbcb"), 
-          panel.grid.major.y=element_blank())+
+    theme(panel.grid.major.x = element_line(color="#cbcbcb"),  ## Additional customizations (gridlines) added following bbc_style() command...
+          panel.grid.major.y=element_blank())+ 
   labs(title = "Penguin Body Mass Over Time", 
        subtitle = "Average body mass of penguins per year")+ # Add title and subtitle
     scale_x_continuous(breaks = seq(min(line_df$year), max(line_df$year), by = 1)))  # Display years as integers
@@ -65,7 +65,7 @@ line_df <- penguins %>%
 
 final_plot<- finalise_plot(plot_name = line_plot,
               source = "Source: Data from Palmer Penguins Dataset",
-              save_filepath = "Figure1-LineChart.png",
+              save_filepath = "Tutorial/Figure1-LineChart.png",
               width_pixels = 640,
               height_pixels = 450)
 
