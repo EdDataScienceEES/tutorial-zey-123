@@ -38,6 +38,8 @@ We will be using the `palmerpenguins` package on R, which contains two datasets 
 
 This dataset is particularly relevant for creating BBC-style plots as it provides a clean, well-structured dataset with distinct categorical variables (species) and quantitative variables (bill length, flipper length, body mass, etc.), which are ideal for showcasing clear and impactful visualizations. BBC-style plots emphasize clarity and effective storytelling, and the penguins dataset allows us to explore and visualize data patterns in a way that aligns with these principles, such as comparing trends, emphasizing key data points, and maintaining an engaging yet simple design.
 
+[Click here to read more on this dataset](https://allisonhorst.github.io/palmerpenguins/) 
+
 To install:
 ```
 install.packages("palmerpenguins")
@@ -46,22 +48,13 @@ library(palmerpenguins)
 head(penguins)
 view(penguins)
 ```
-
-[click here to read more on this dataset](https://allisonhorst.github.io/palmerpenguins/) 
-
-~~Alternatively, the repository containing the script and dataset can be forked to your own GitHub account and added as a new RStudio project by copying the HTTPS link. Follow this(insert link to repo) link to access the repo and clone. Make a new script file making sure its informative, remember, following the coding etiquette covered in previous tutorials is an important practice at this stage.~~
+**Additionally,** the repository containing the script that will be used in this tutorial can be forked to your own GitHub account and added as a new RStudio project by copying the HTTPS link. Follow [this link](https://github.com/EdDataScienceEES/tutorial-zey-123) to access the repo and clone. Make a new script file making sure its informative and has your info, remember, following the coding etiquette covered in previous tutorials is an important practice to adopt at this stage.
 
 ```
-     # Data visualisation tutorial (part 3)
-     # Your Name
-     # Date
-     # Step 1: Load the libraries that will be necessary for this tutorial
-
-       library(dplyr)
-       library(ggplot2)
-                
+# Data visualisation tutorial (part 3)
+# Your Name
+# Date           
 ```
-
 ---
 
 ## Part 1: Introduction to BBC-Style Design 
@@ -91,6 +84,8 @@ library(bbplot) #Making ggplot graphics in BBC news style.
 ```
 
 Once these packages are installed, we essentially got everything to start creating our lovely graphics. 
+
+### Understanding and using the `bbplot` package to make a simple line chart
 
 To start off, we can look deeper into the main package necessary for obtaining these graphs, `bbplot`and how we can use it. The `bbpolot` package provides two main functions: `bbc_style()` and `finalise_plot()`:
 
@@ -136,9 +131,6 @@ This gives us the following line chart, where the `bbc_style()` function essenti
 <div align= "center">
      <img width="402" alt="Screenshot 2024-11-19 at 14 35 05" src="https://github.com/user-attachments/assets/90112323-94fc-42ed-945a-5ad7bf469b2e">
 </div>
-
-
-
 
 
 ### 1.b. **Dataset Overview**  
