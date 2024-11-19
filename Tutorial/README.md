@@ -2,6 +2,9 @@
 ---
 > <p align="center"> Created by Zeynep Yuksel - November 2024 </p>
 ---
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-19 at 13 57 55" src="https://github.com/user-attachments/assets/428de24c-0989-4c09-90b5-21db51c4d52f">
+</div>
 
 ### Overview
 
