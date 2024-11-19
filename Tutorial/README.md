@@ -6,6 +6,8 @@
      <img width="500" alt="Screenshot 2024-11-19 at 13 57 55" src="https://github.com/user-attachments/assets/428de24c-0989-4c09-90b5-21db51c4d52f">
 </div>
 
+_<p align="center"> **Source:** WWF </p>_
+
 ### Overview
 
 This tutorial explores advanced data visualization techniques in R, focusing on creating professional, BBC-style graphics using **ggplot2** and supplementary packages like **patchwork** and **scico**. By the end, learners will be equipped to produce publication-ready visuals with polished themes, cohesive color palettes, and multi-panel layouts.  
@@ -58,11 +60,12 @@ view(penguins)
 ---
 
 ## Part 1: Introduction to BBC-Style Design 
-### 1.a. What Makes a Plot "BBC-Style" and the necessary libraries   
-   - Simplicity, clarity, accessibility, and storytelling.  
-   - Examples of BBC plots and their applications in science and journalism:
+### 1.a.What Makes a Plot "BBC-Style" and the necessary libraries   
+
+Simplicity, clarity, accessibility, and storytelling. Some examples of BBC plots and their applications in science and journalism:
   
    ![image](https://github.com/user-attachments/assets/e05474b2-e863-4358-84c0-589d97cb84f2)
+_<p align="center"> **Source:** BBC Data Journalism cookbook </p>_
 
 To make graphics that adhere to the BBC style as seen above, certain packages need to be installed and loaded: 
 
@@ -85,7 +88,7 @@ library(bbplot) #Making ggplot graphics in BBC news style.
 
 Once these packages are installed, we essentially got everything to start creating our lovely graphics. 
 
-### Understanding and using the `bbplot` package to make a simple line chart
+### 1.b.Understanding and using the `bbplot` package to make a simple line chart
 
 To start off, we can look deeper into the main package necessary for obtaining these graphs, `bbplot`and how we can use it. The `bbpolot` package provides two main functions: `bbc_style()` and `finalise_plot()`:
 
@@ -129,44 +132,152 @@ final_plot<- finalise_plot(plot_name = line_plot,
 This gives us the following line chart, where the `bbc_style()` function essentially modified arguments in the `theme` function of `ggplot2`: 
 
 <div align= "center">
-     <img width="402" alt="Screenshot 2024-11-19 at 14 35 05" src="https://github.com/user-attachments/assets/90112323-94fc-42ed-945a-5ad7bf469b2e">
+     <img width="502" alt="Screenshot 2024-11-19 at 14 35 05" src="https://github.com/user-attachments/assets/90112323-94fc-42ed-945a-5ad7bf469b2e">
 </div>
-
-
-### 1.b. **Dataset Overview**  
-   - Use the **Global Biodiversity Indicators** dataset (or similar public datasets).  
-   - Brief explanation of key variables (e.g., species richness, time trends, regions).  
 
 ---
 
 ## Part 2: Advanced `ggplot2` Techniques
+Building on the foundations laid in Part 1, where you learned to create simple BBC-style plots using the `bbplot` package, this section delves deeper into enhancing storytelling through advanced ggplot2 features. While Part 1 focused on the core principles of simplicity, clarity, and accessibility in BBC-style design, here you’ll expand those skills to create more dynamic and customized visualizations.
 
-### 2.a. Custom Themes for Clean Design 
-   - Use `theme_minimal()` as a base and extend it for a BBC-style theme:  
-     ```
-     theme_bbc <- theme_minimal() +
-       theme(
-         text = element_text(family = "Helvetica", color = "black"),
-         panel.grid.minor = element_blank(),
-         panel.grid.major.x = element_blank(),
-         axis.line = element_line(color = "black")
-       )
-     ```
+These techniques will enable you to build upon the polished aesthetics of BBC-style visuals and make your plots even more engaging and informative.
 
-### 2.b. Annotations for Context
-   - Add meaningful annotations with `annotate()`:  
-     ```r
-     annotate("text", x = 2000, y = 50, label = "Biodiversity decline begins", size = 4)
-     ```
+### 2.a. Adding Annotations to Highlight Key Points
+Annotations are helpful for drawing attention to specific data points or trends in your visualization. We can use annotations with our penguin data to call out for important clusters or outliers when making a new scatter plot, showing us the relationship pengiun body mass vs flipper length. The easiest way to do this is by using the `annotate()` function. 
 
-### 2.c. Secondary Axes for Comparisons 
-   - Example: Overlay biodiversity trends with temperature anomalies:  
-     ```r
-     scale_y_continuous(sec.axis = sec_axis(~., name = "Temperature Anomaly"))
-     ```
+#### Adding annotations with the `annotate()` function
+```
+# Adding annotations (Highlighting a key year in the penguins dataset)  
+(annotated_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  #Mapping the x-axis to flipper_length_mm and the y-axis to body_mass_g.
+    geom_point(aes(color = species), size = 3) +  #Plotting individual penguins as points on the chart, and coloring these points based on the species of penguin, setting size to 3. 
+    annotate("text", x = 205, y = 4100, label = "Note this cluster!", size = 7, color = "black", family="Helvetica") +  #Placing a text annotation at the specified coordinates. Sets the annotation's text to "Note this cluster!" with a font size of 7 and color black.
+    bbc_style() +  #Applying BBC-style formatting
+    labs(title = "Penguin Body Mass vs. Flipper Length", subtitle = "Annotated clusters of penguins")) #Setting plot title and subtitles.
 
-### 2.d. Using Custom Fonts and Titles
-   - Apply BBC-style fonts using the `extrafont` package.
+```
+This gives us the following output: 
+
+<div align= "center">
+     <img width="507" alt="Screenshot 2024-11-19 at 17 56 51" src="https://github.com/user-attachments/assets/b1f31517-aa79-4c56-a5e1-166fb6b99c35">
+</div>
+
+The exact positioning of the annotation depends on the `x` and `y` arguments. We can also insert line breaks in our label using `\n` and adjust the spacing between lines with the `lineheight` parameter.
+
+```
+#Adding line breaks
+(annotated_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
+    geom_point(aes(color = species), size = 3) +
+    annotate("text", x = 205, y = 4100, label = "Note\n this\n cluster!", size = 7, color = "black", family="Helvetica", lineheight = 0.8) +
+    bbc_style() +  
+    labs(title = "Penguin Body Mass vs. Flipper Length", subtitle = "Annotated clusters of penguins")) #Setting plot title and subtitles.
+
+```
+You can see what this does here, changing it from what we did above:
+
+<div align= "center">
+     <img width="496" alt="Screenshot 2024-11-19 at 17 54 53" src="https://github.com/user-attachments/assets/a540d625-a847-4410-8a84-cade46be884a">
+</div>
+
+#### Directly tying annotations to data using the `geom_label()` function
+Luckily, there’s a smarter way to add data-based labels that saves both time and effort—hooray for efficiency! 🎉 While manually specifying x and y coordinates is great for pinpointing specific spots on your plot, doing this repeatedly for multiple (or all) points can quickly become a chore. Why not let your data do the heavy lifting instead? 😊
+
+By using `geom_label()`, you can directly tie annotations to your data. Here’s an example applied to the penguin dataset, where each datapoint gets labels with just one line of code. 
+
+```
+#Adding labels based on data
+(labelled_clusters <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species), size = 3) +
+  geom_label(aes(label = round(body_mass_g, 0)),   # Add labels with rounded body mass values
+             hjust = 0.5, # Horizontal justification (centered)
+             vjust = -0.5,  # Vertical adjustment (move labels slightly above points)
+             colour = "black",  # Border color of the label box
+             fill ="white",  # Background color of the label box
+             label.size = 0.1,  # # Thickness of the label's border - making it easier to read
+             family = "Helvetica",  # Font family for the label text
+             size = 2) +  # Adjust label size
+  bbc_style() +  # Apply BBC-style aesthetics
+  labs(title = "Penguin Body Mass vs. Flipper Length", 
+       subtitle = "Labels based on penguin body mass"))
+
+```
+Previously, we used the `annotate()` function to manually add annotations to specific points on the plot. This method is useful when you want to place text annotations at precise coordinates, but it requires specifying each position manually, which can be time-consuming if you're working with many data points. To improve efficiency and tie annotations directly to the data, we switched to `geom_label()`. Unlike `annotate()`, which requires manual coordinate input, `geom_label()` automatically places labels at positions determined by the data itself. This makes it more efficient when labeling multiple points at once. Both `annotate()` and `geom_label()` allow for the addition of text annotations, but `geom_label()` has the added benefit of placing a background box around each label, enhancing readability. While `annotate()` is better suited for static, fixed annotations, `geom_label()` is ideal for dynamic labeling tied directly to the data points.
+
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-19 at 18 59 58" src="https://github.com/user-attachments/assets/36b571ff-0929-4513-8294-237091259531">
+</div>
+
+As you can see, this does look a bit messy and you probably wouldn't want to use this function on scatter plots with many datapoints, but this is what this function does :). 
+
+#### Adding a line
+Finally, among the many annotation features offered by ggplot2, one important capability to highlight is the ability to add an arrow. This feature can be very useful for drawing attention to specific parts of your plot. To do this, we will use the `geom_segment` function. 
+
+```
+```
+
+
+
+
+
+### 2.b. Add depth to your plots with secondary axes, allowing for comparisons
+Now that we know have covered many ways to annotate our graphics, we can move onto making secondary axes. Secondary axes are used to display additional information, such as a transformed version of the primary data.
+
+```
+# Using a secondary y-axis to show body mass in pounds  
+secondary_axis_plot <- ggplot(penguins, aes(x = bill_length_mm, y = body_mass_g)) +  
+  geom_point(aes(color = species), size = 3) +  
+  scale_y_continuous(name = "Body Mass (g)",  
+                     sec.axis = sec_axis(~ . / 453.592, name = "Body Mass (lbs)")) +  
+  bbc_style() +  
+  labs(title = "Penguin Body Mass and Bill Length",  
+       subtitle = "Dual-axis plot showing body mass in grams and pounds")  
+
+# Display the plot  
+secondary_axis_plot  
+```
+
+This plot demonstrates how you can provide more context by adding a secondary axis for an alternative unit.
+
+
+### 2.c. Showcase patterns across groups using faceted layouts.
+Now that we know how to annotate our graphics and set secondary axes, we can move onto faceting. Faceting splits data into subplots, making it easier to identify trends within groups.
+
+```
+# Facet by species  
+faceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
+  geom_point(aes(color = species), size = 3) +  
+  facet_wrap(~species) +  # Create a panel for each species  
+  bbc_style() +  
+  labs(title = "Penguin Body Mass vs. Flipper Length",  
+       subtitle = "Faceted by species for clearer comparisons")  
+
+# Display the plot  
+faceted_plot  
+```
+
+This creates a panel for each penguin species, allowing for comparisons across categories.
+
+### 2.d. Refine visual aesthetics while ensuring accessibility with custom themes and color palettes.
+Tips for Advanced Customization:
+* Combining BBC Style and Custom Themes: Use theme() after bbc_style() to further refine plot elements.
+* Choosing Accessible Color Palettes: Use the scico package to ensure your plots are accessible to all audiences, including those with color vision deficiencies.
+
+Example: Accessible Color Palette
+```
+library(scico)  
+
+accessible_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +  
+  geom_point(size = 3) +  
+  scale_color_scico(palette = "batlow") +  # Accessible color palette  
+  bbc_style() +  
+  labs(title = "Penguin Data with Accessible Colors",  
+       subtitle = "Using scico for a colorblind-friendly palette")  
+
+# Display the plot  
+accessible_plot  
+```
+
+#### Next Steps
+Now that you've mastered advanced ggplot2 techniques, we’ll move on to Part 3, where you’ll combine multiple plots into cohesive layouts using the patchwork package.
 
 ---
 
