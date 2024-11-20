@@ -303,11 +303,37 @@ What the data is showing us:
 > Yay! We’ve mastered secondary axes! First, we turned penguin body mass from grams to pounds on a secondary axis, making it easier for different audiences to grasp the data in their preferred units- especially important for graphics published on universal platforms like the BBC, where clarity and accessibility are key. Then, we had some fun by combining a bar chart (for flipper length) and a line chart (for body mass) in one plot, each with its own scale! With secondary axes, we can compare two related variables without making our plot look cluttered. It’s like giving your data a stylish makeover while keeping everything clear and easy to read. How cool is that?
 
 ### 2.c. Showcase patterns across groups using faceted layouts.
-Now that we know how to annotate our graphics and set secondary axes, we can move onto faceting. Faceting splits data into subplots, making it easier to identify trends within groups. Despite having been covered a bit in [part 1](https://ourcodingclub.github.io/tutorials/datavis/) of the data visualisation tutorial by coding club, we will cover a few more fun tips and tricks that can be useful. 
+Now that we know how to annotate our graphics and set secondary axes, we can move onto faceting. Faceting splits data into subplots, making it easier to identify trends within groups. Although we have dipped our toes into faceting in [part 1](https://ourcodingclub.github.io/tutorials/datavis/) of the Coding Club's data visualisation series , here we will uncover some fun tips and tricks to truly make your facets shine.
 
-`facet_wrap()` is a powerful function in ggplot2 for creating small multiples. Unlike `facet_grid()`, it is used for a single categorical variable. This function creates multiple plots (or facets) based on the levels of that variable, wrapping them into a grid. You can specify the variable for faceting using `~`, and it will automatically arrange the facets into rows and columns, depending on the available space. This makes it especially useful when you want to display a large number of subplots without worrying about the combination of two categorical variables. 
+Lets start with `facet_wrap()`, the go-to function in ggplot2 for creating small multiples. Unlike `facet_grid()`, it is used for a **single categorical variable**. This function creates multiple plots (or facets) based on the levels of that variable, wrapping them into a grid. You can specify the variable for faceting using `~`, and it will automatically arrange the facets into rows and columns, depending on the available space. This makes it especially useful when you want to display a large number of subplots without worrying about the combination of two categorical variables. 
 
 Just like `facet_grid()`, you can control the scales of the axes with the `scales` argument, and `facet_wrap()` will give you a clean, organized way to compare different subsets of your data.
+
+Here’s a quick cheat sheet on `facet_grid` before we dive into faceting our penguins using `facet_wrap()`:
+
+```
+# Start with a simple scatterplot
+penguin_plot <- ggplot(penguins, aes(bill_length_mm, flipper_length_mm)) + geom_point()
+
+# Facet into different layouts
+penguin_plot + facet_grid(. ~ species)  # Arrange facets in a single row based on penguin species
+penguin_plot + facet_grid(island ~ .)  # Stack facets in rows based on islands
+penguin_plot + facet_grid(island ~ species)  # Create a grid using rows (islands) and columns (species)
+penguin_plot + facet_wrap(~ species)  # Wrap facets into a rectangular layout automatically
+
+# Let axis scales vary across facets for flexibility
+penguin_plot + facet_grid(island ~ species, scales = "free")  # Both x and y-axis are free
+penguin_plot + facet_grid(island ~ species, scales = "free_x")  # Only x-axis varies
+penguin_plot + facet_grid(island ~ species, scales = "free_y")  # Only y-axis varies
+
+# Customize facet labels for a polished look
+penguin_plot + facet_grid(. ~ species, labeller = label_both)  # Labels show both variable names and values ("species: Adelie", "species: Chinstrap", etc.)
+penguin_plot + facet_grid(species ~ ., labeller = label_bquote(alpha ^ .(species)))  # Use math expressions for labels ("𝛼Adelie", "𝛼Chinstrap", etc.)
+
+```
+See how flexible and fun faceting can be? Whether you’re organizing by rows, columns, or both, it’s all about giving your audience a clear way to compare subsets of your data.
+
+Ready to see this magic in action with our penguins? Let’s do it using `facet_wrap()`, keeping things playful and simple- just like penguins themselves! 🐧
 
 ```
 # Facet by species
