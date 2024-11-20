@@ -522,20 +522,113 @@ You're nearly there! You've just unlocked some advanced ggplot2 skills, and now 
 
 ## **Part 3: Cohesive Multi-Panel Layouts with `patchwork`**  
 
-Well done for making it this far!
+Well done for making it this far! When visualizing data, sometimes it's useful to combine multiple plots into one cohesive story. `patchwork` is a package designed to make it incredibly easy to do this by merging separate `ggplot2` plots into a single graphic. It's a great tool for creating complex layouts without the hassle, providing a more intuitive and exploratory API compared to other options like `gridExtra::grid.arrange()` or `cowplot::plot_grid`. Whether you need simple side-by-side plots or intricate, multi-panel layouts, patchwork makes it simple and fun.
 
-1. **Combining Plots into a Story**  
-   - Example: Compare biodiversity trends across continents side by side.  
-     ```
-     library(patchwork)
-     p1 + p2 + plot_layout(ncol = 2)
-     ```
+####  3.a.Combining Plots into a Story   
+Below is a code example using the penguin dataset to create multiple plots and combine them into a unified story with patchwork. Each plot represents a different aspect of the penguin data, and we’ll combine them to show different visual angles at once.
 
-2. **Nested Layouts for Emphasis**  
-   - Example: Centralize the global trend while showing regional breakdowns around it.  
+```
+# Create the first plot (species vs flipper_length_mm)
+(plot1 <- ggplot(penguins, aes(x = species, y = flipper_length_mm, fill = species)) +
+  geom_boxplot() +                           # Creates a boxplot for flipper length across species
+  scale_fill_scico_d(palette = "batlow") +    # Applies a discrete color palette for the species variable
+  labs(title = "Flipper Length by Species",   # Adds a title to the plot
+       subtitle = "Boxplot of flipper lengths across penguin species") +
+  bbc_style())                                 # Apply BBC style directly
 
-3. **Adding Titles and Captions Across Panels**  
-   - Use `plot_annotation()` for overarching titles and notes.  
+# Create the second plot (body_mass_g vs flipper_length_mm)
+(plot2 <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 3) +                       # Scatter plot showing body mass vs flipper length
+  scale_color_scico_d(palette = "batlow") +     # Discrete color palette for the species variable
+  labs(title = "Body Mass vs Flipper Length",  # Adds a title to the plot
+       subtitle = "Scatter plot with species-based coloring") +
+  bbc_style())                                 # Apply BBC style directly
+
+# Create the third plot (density plot for body mass)
+(plot3 <- ggplot(penguins, aes(x = body_mass_g, fill = species)) +
+  geom_density(alpha = 0.5) +                  # Creates a density plot for body mass with transparency
+  scale_fill_scico_d(palette = "batlow") +      # Applies the same discrete color palette for species
+  labs(title = "Body Mass Distribution",       # Adds a title to the plot
+       subtitle = "Density plot for penguin body mass across species") +
+  bbc_style())                                # Apply BBC style directly
+
+# Combine the plots using patchwork to create a cohesive layout
+(final_plot <- plot1 + plot2 + plot3 +            # Combine the three plots
+  plot_layout(ncol = 1) +                       # Arrange plots in one column
+  plot_annotation(title = "Penguin Data Story",  # Add an overarching title
+                  subtitle = "Exploring Penguin Species and Traits")) # Subtitle for context
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-20 at 16 42 04" src="https://github.com/user-attachments/assets/5ef868af-e7dc-4dba-adfb-3c061e29d884">
+</div>
+
+As you can see, combining `patchwork` with the `bbc_style()` theme may produce plots that are difficult to read due to oversized elements. To address this, we can make a few adjustments. Specifically, by adding a line of code after applying the `bbc_style()` theme to all plots and combining them with `patchwork`, we can fine-tune the plot sizes for better readability. It is also important to note that by default, plots will arrange themselves in a grid. If you want to adjust the number of rows or columns, use `plot_layout()`.
+
+```
+  bbc_style() +                                  # Apply BBC style directly
+  theme(plot.title = element_text(size = 12),    # Adjust title size for better fitting
+        plot.subtitle = element_text(size = 10), # Adjust subtitle size for better fitting
+        axis.text = element_text(size = 10))     # Adjust axis text size for better fitting
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-20 at 16 43 08" src="https://github.com/user-attachments/assets/fe0d1d39-1d7e-4cdf-901f-ff37f5b69ac1">
+</div>
+
+Voila! Better, isn't it?
+
+#### 3.b. Exploring different adjustments that can be done when combining plots with `patchwork`
+Combining plots using the `+` opperator to combine plots and adding labels and titles is only the basic use of `plot_layout()`. There are endless adjustments we can do to the stacking/placement of plots, annotate the composition, controlling layouts and many more. Below are short summaries of how the most common adjustments can be done and the outputs they give.
+
+##### Stacking and Placing Plots
+You can also stack or arrange plots side by side using the / and | operators:
+
+To stack plots vertically:
+
+```
+plot1 / plot2
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-20 at 17 14 01" src="https://github.com/user-attachments/assets/d73afaf0-f837-4c86-b811-484af373669b">
+</div>
+
+To place plots side by side:
+```
+plot1 | plot2
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-20 at 17 14 47" src="https://github.com/user-attachments/assets/fa8706be-816e-45b4-a61d-e7bfb063b01c">
+</div>
+
+You can combine these operators for more complex layouts:
+```
+plot1 | (plot2 / plot3)
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-20 at 17 15 33" src="https://github.com/user-attachments/assets/6a991d08-94d6-462e-9b26-a068b49a1fa1">
+</div>
+
+##### Annotating the Composition
+You can add an overall title or captions with `plot_annotation()`:
+
+```
+(plot1 | (plot2 / plot3)) + plot_annotation(title = "Penguin Data Analysis")
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-20 at 17 16 12" src="https://github.com/user-attachments/assets/88bccaef-1ffc-4e19-ae6f-360c961b3072">
+</div>
+
+Patchwork also provides the ability to auto-tag to identify subplots in text:
+
+```
+plot1 + plot2 + plot3 + plot_layout(ncol = 2) + plot_annotation(tag_levels = 'I')
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-20 at 17 26 38" src="https://github.com/user-attachments/assets/553c6b8b-7f01-4a3d-bc1f-49a56adeb5ed">
+</div>
+
+
+#### Hungry for more? 
+This is just the beginning! While you now have the basics, there's so much more to explore with patchwork. Check out the [additional guides](https://patchwork.data-imaginist.com/articles/guides/layout.html#controlling-guides) to learn more about advanced features, such as consolidating all legends into one spot, removing duplicates, or aligning plots across multiple pages.
 
 
 ---
