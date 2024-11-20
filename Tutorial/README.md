@@ -746,19 +746,48 @@ The first two plots are stacked vertically, while the third plot is placed besid
 
 
 ---
+## Wrapping Up: A Positive Reflection on Your Progress
+As we wrap up, let’s celebrate the insights gained through today’s exploration! We've made it through a comprehensive visual analysis of penguin data, and by the end of this journey, you should have a solid grasp of how to create impactful, BBC-style plots using ggplot2, patchwork, and the scico package. Our final visual story (fig. 5) shows how well we can bring together multiple elements—annotations, custom themes, faceted layouts, and more—to tell a cohesive and compelling data story.
 
-##  **Part 6: Challenges and Extensions**  
 
-1. **Recreate a BBC Plot**  
-   - Challenge learners to replicate a provided example using real-world data.  
+ _A Penguin in its Natural Habitat. Photo credit: National Geographic_
 
-2. **Create Your Own Story**  
-   - Encourage learners to visualize a dataset of their choice using the skills learned.  
+<ins>By now, you should have:</ins>
 
-3. **Going Further**  
-   - Introduce integrating these plots into R Markdown reports or Shiny apps.  
+* Broadly understood advanced plotting techniques with ggplot2 and patchwork to combine multiple plots into one cohesive visual narrative.
+* Gained a deeper understanding of how to apply BBC-style design principles, creating professional, clean, and effective visualizations.
+* Discovered how to enhance your plots with annotations, secondary axes, and creative color palettes for accessibility and visual appeal.
+
+Remember, the goal of this tutorial isn’t for you to memorize every function, but to explore and experiment! You can always revisit the script, refine your plots, and get inspiration from this journey for any future visualization tasks. If you’re ever in need of a refresher, feel free to refer to the resources shared throughout the tutorial and continue exploring the endless possibilities in R’s rich visualization ecosystem.
+
+## Keep exploring and visualizing—your next project could be just a plot away!
 
 ---
+
+If you have any questions or feedback,  don't hesitate to reach out to me on zeynepdenizyuksel2004@gmail.com
+
+---
+
+Related Tutorials:
+* bla
+* bla
+* bla
+
+Future Reading:
+
+
+---
+
+
+ **Recreate a BBC Plot**  
+   - Challenge learners to replicate a provided example using real-world data.  
+
+ **Create Your Own Story**  
+   - Encourage learners to visualize a dataset of their choice using the skills learned.  
+
+ **Going Further**  
+   - Introduce integrating these plots into R Markdown reports or Shiny apps.  
+
 
 ### **Conclusion**  
 
