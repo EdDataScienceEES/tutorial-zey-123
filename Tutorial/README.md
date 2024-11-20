@@ -414,7 +414,7 @@ When using scale_color_scico() for continuous/categorical data in the `ggplot2` 
 *  **begin (optional)**: This controls where to start sampling from the palette (a value between 0 and 1). The default is 0.
 *  **end (optional):** This controls where to end sampling from the palette (a value between 0 and 1). The default is 1.
 
-<ins>Let’s give it a try!</ins>
+Let’s give it a try!
 
 #### For categorical data (e.g `species`)
 If you want to apply scico for a discrete variable (like species), use `scale_color_scico_d()`.
@@ -520,7 +520,7 @@ You're nearly there! You've just unlocked some advanced ggplot2 skills, and now 
 
 ---
 
-## **Part 3: Cohesive Multi-Panel Layouts with `patchwork`**  
+## Part 3: Cohesive Multi-Panel Layouts with `patchwork`
 
 Well done for making it this far! When visualizing data, sometimes it's useful to combine multiple plots into one cohesive story. `patchwork` is a package designed to make it incredibly easy to do this by merging separate `ggplot2` plots into a single graphic. It's a great tool for creating complex layouts without the hassle, providing a more intuitive and exploratory API compared to other options like `gridExtra::grid.arrange()` or `cowplot::plot_grid`. Whether you need simple side-by-side plots or intricate, multi-panel layouts, patchwork makes it simple and fun.
 
