@@ -774,6 +774,8 @@ Related Tutorials:
 * bla
 
 Future Reading:
+* More on data visualization, the data-vis cheat sheet: [https://rstudio.github.io/cheatsheets/html/data-visualization.html]
+* 
 
 
 ---
