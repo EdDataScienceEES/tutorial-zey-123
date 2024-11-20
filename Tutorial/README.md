@@ -577,7 +577,7 @@ As you can see, combining `patchwork` with the `bbc_style()` theme may produce p
 Voila! Better, isn't it?
 
 #### 3.b. Exploring different adjustments that can be done when combining plots with `patchwork`
-Combining plots using the `+` opperator to combine plots and adding labels and titles is only the basic use of `plot_layout()`. There are endless adjustments we can do to the stacking/placement of plots, annotate the composition, controlling layouts and many more. Below are short summaries of how the most common adjustments can be done and the outputs they give.
+Combining plots using the `+` opperator and adding labels and titles as we did in the above example is only the basic use of `plot_layout()`. There are endless adjustments we can do to the stacking/placement of plots, annotate the composition, controlling layouts and many more. Below are short summaries of how the most common adjustments can be done and the outputs they give. These can be chosen and adopted to best fit the data and graphics you want to use. 
 
 ##### Stacking and Placing Plots
 You can also stack or arrange plots side by side using the / and | operators:
@@ -633,13 +633,16 @@ This is just the beginning! While you now have the basics, there's so much more 
 
 ---
 
-##  **Part 5: Putting It All Together—Creating a Complete BBC-Style Plot**  
+##  Part 4: Putting It All Together—Creating a Complete BBC-Style Plot
+You’ve put in the work, experimented with various tools, and learned how to control every detail of your visualizations. Now, it’s time to stitch it all together into something truly spectacular! In this section, we’ll create a polished, final plot using everything you’ve learned so far—combining your skills with bbc-style theming, clever color choices, and layout tricks to make a plot that’s not only informative but also visually stunning.
 
-1. **Combine Techniques into a Final Visualization**  
+We’ll be finishing off our penguin data story by bringing in multiple elements: the BBC style, attractive color palettes, and precise layout management. This is where all your creativity and hard work culminates into one eye-catching, ready-to-share plot.
+
+So let’s dive in and get creative! Here’s how to finish strong with the `finalise_plot()` function, ensuring that everything is just right!
+
+ **Combine Techniques into a Final Visualization**  
    - Incorporate all elements: advanced `ggplot2` features, `patchwork` layouts, and `scico` color palettes.  
 
-2. **Example: Biodiversity Decline Over Time**  
-   - Multi-panel layout comparing global vs. regional trends, with annotations and a cohesive color scheme.  
 
 ---
 
