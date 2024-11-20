@@ -324,23 +324,72 @@ plot1 + plot2 + plot3 + plot_layout(ncol = 2) + plot_annotation(tag_levels = 'I'
 # Part 4 ----
 
 
-final_plot<- finalise_plot(plot_name = final_plot,
-                           source = "Source: Data from Palmer Penguins Dataset",
-                           save_filepath = "Tutorial/Figure2-FinalPlot.png",
-                           width_pixels = 640,
-                           height_pixels = 450)
+# Prepare data: Use the penguins dataset and remove any NA values
+penguins_clean <- penguins %>% drop_na()
+
+# Create the first plot: Flipper length vs. Body mass with a trend line and annotation
+(plot1 <- ggplot(penguins_clean, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", linetype = "dashed", color = "black") +  # Add a linear trend line
+  annotate("text", x = 190, y = 5000, label = "Trend: Larger flippers = heavier body", 
+           color = "black", size = 4, hjust = 0) +  # Add annotation
+  scale_color_scico_d(palette = "batlow") +  # Apply scico color palette
+  bbc_style() +  # Apply BBC-style theme
+  labs(title = "Flipper Length vs.\n Body Mass", subtitle = "Trend highlighted with a linear fit")+
+    theme(plot.title = element_text(size = 18),
+          plot.subtitle = element_text(size = 10)))
+
+# Create the second plot: Density plot of body mass across species
+(plot2 <- ggplot(penguins_clean, aes(x = body_mass_g, fill = species)) +
+  geom_density(alpha = 0.7) +
+  scale_fill_scico_d(palette = "batlow") +
+  bbc_style() +
+  labs(title = "Body Mass Distribution", subtitle = "Density plot showing species differences")+
+  theme(plot.title = element_text(size = 18),
+        plot.subtitle = element_text(size = 10)))
+
+# Create the third plot: Faceted scatter plot with a secondary axis for flipper length in cm
+(plot3 <- ggplot(penguins_clean, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 2) +  # Scatter plot with smaller points for better visibility in facets
+  scale_color_scico_d(palette = "batlow") +  # Use a colorblind-friendly palette
+  scale_x_continuous(
+    sec.axis = sec_axis(~./10, name = "Flipper Length (cm)"),  # Add a secondary axis for flipper length in cm
+    limits = c(170, 240)  # Set limits for flipper length to provide consistent scaling
+  ) +
+  scale_y_continuous(
+    limits = c(2500, 6500)  # Set limits for body mass to avoid overcrowding
+  ) +
+  bbc_style() +  # Apply the BBC style for consistency
+  labs(
+    title = "Flipper Length (mm) vs.\n Body Mass by Species",  # Title of the plot
+    subtitle = "Faceted by Species",  # Subtitle for additional context
+    x = "Flipper Length (mm)",  # X-axis label
+    y = "Body Mass (g)"  # Y-axis label
+  ) +
+  facet_wrap(~species, ncol = 1, strip.position = "top") +  # Facet by species with single column for readability
+  theme(
+    strip.text = element_text(size = 12, face = "bold"),  # Customize facet strip text for better visibility
+    axis.text.x = element_text(angle = 45, hjust = 1),  # Rotate x-axis text for better spacing
+    panel.spacing = unit(1, "lines"),  # Increase spacing between facets
+    plot.title = element_text(size = 18),
+    plot.subtitle = element_text(size = 10)))
 
 
+# Combine all plots using patchwork
+(final_plot <- (plot1 / plot2) | plot3 +  # Stack plot1 and plot2, and place plot3 beside them
+  plot_annotation(
+    title = "Exploring Penguin Data: A Visual Journey",
+    subtitle = "Combining multiple visualizations into one cohesive story",
+    caption = "Data: Palmer Penguins | Visualization: BBC-Style"
+  ))
 
+# Save the combined plot using finalise_plot
+finalise_plot(
+  plot_name = final_plot,
+  source_name = "Data source: Palmer Penguins dataset",
+  save_filepath = "Tutorial/final_penguin_plot.png"  # Adjust this to your folder structure
+)
 
-
-
-
-
-
-# Final Steps: Save the plots
-ggsave("global_waste_plot.png", plot = plot1, dpi = 300, width = 10, height = 6)
-ggsave("combined_plot.png", plot = combined_plot, dpi = 300, width = 12, height = 8)
 
 ##############################################
 # End of Tutorial
