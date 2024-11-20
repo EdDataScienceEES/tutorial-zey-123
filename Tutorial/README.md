@@ -641,7 +641,108 @@ We’ll be finishing off our penguin data story by bringing in multiple elements
 So let’s dive in and get creative! Here’s how to finish strong with the `finalise_plot()` function, ensuring that everything is just right!
 
  **Combine Techniques into a Final Visualization**  
-   - Incorporate all elements: advanced `ggplot2` features, `patchwork` layouts, and `scico` color palettes.  
+   - Incorporate all elements: advanced `ggplot2` features, `patchwork` layouts, and `scico` color palettes.
+
+#### Mastering Annotations, Trend Lines, and BBC-Style Visuals: Flipper Length vs. Body Mass
+
+```
+# Prepare data: Use the penguins dataset and remove any NA values
+penguins_clean <- penguins %>% drop_na()
+
+# Create the first plot: Flipper length vs. Body mass with a trend line and annotation
+(plot1 <- ggplot(penguins_clean, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", linetype = "dashed", color = "black") +  # Add a linear trend line
+  annotate("text", x = 190, y = 5000, label = "Trend: Larger flippers = heavier body", 
+           color = "black", size = 4, hjust = 0) +  # Add annotation
+  scale_color_scico_d(palette = "batlow") +  # Apply scico color palette
+  bbc_style() +  # Apply BBC-style theme
+  labs(title = "Flipper Length vs.\n Body Mass", subtitle = "Trend highlighted with a linear fit")+
+    theme(plot.title = element_text(size = 18),
+          plot.subtitle = element_text(size = 10)))
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-20 at 19 40 37" src="https://github.com/user-attachments/assets/ebab760b-c5cb-4fa0-89ea-b31a1a91e2d4">
+</div>
+
+This plot combines multiple advanced visualization techniques to create an accessible and informative design. A scatter plot is enhanced with a linear trend line to highlight the relationship between flipper length and body mass, reinforcing key insights. The use of the `annotate()` function draws attention to this trend with a concise explanatory note, ensuring clarity and impact. A colorblind-friendly palette from the `scico` package (batlow) is applied to maintain accessibility, while the `bbc_style()` theme ensures a clean and professional appearance. Together, these elements align with the tutorial’s learning outcomes, demonstrating the ability to enrich plots with annotations, utilize accessible color palettes, and create polished visualizations for effective storytelling.
+
+#### Exploring Species-Based Body Mass Distributions with Density Plots
+
+```
+# Create the second plot: Density plot of body mass across species
+(plot2 <- ggplot(penguins_clean, aes(x = body_mass_g, fill = species)) +
+  geom_density(alpha = 0.7) +
+  scale_fill_scico_d(palette = "batlow") +
+  bbc_style() +
+  labs(title = "Body Mass Distribution", subtitle = "Density plot showing species differences")+
+  theme(plot.title = element_text(size = 18),
+        plot.subtitle = element_text(size = 10)))
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-20 at 19 43 33" src="https://github.com/user-attachments/assets/cf0a52d4-bfd2-4cf1-b07f-f552feacc595">
+</div>
+
+This plot uses a density visualization to highlight how the body mass of penguins differs across species. By applying the scico color palette, we ensure accessibility while enhancing visual distinction between species. The BBC-style formatting ensures clarity and a professional design, making the distribution patterns easy to interpret.
+
+####  Faceted Scatter Plot with Secondary Axis and Species Insights
+
+```
+# Create the third plot: Faceted scatter plot with a secondary axis for flipper length in cm
+(plot3 <- ggplot(penguins_clean, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 2) +  # Scatter plot with smaller points for better visibility in facets
+  scale_color_scico_d(palette = "batlow") +  # Use a colorblind-friendly palette
+  scale_x_continuous(
+    sec.axis = sec_axis(~./10, name = "Flipper Length (cm)"),  # Add a secondary axis for flipper length in cm
+    limits = c(170, 240)  # Set limits for flipper length to provide consistent scaling
+  ) +
+  scale_y_continuous(
+    limits = c(2500, 6500)  # Set limits for body mass to avoid overcrowding
+  ) +
+  bbc_style() +  # Apply the BBC style for consistency
+  labs(
+    title = "Flipper Length (mm) vs.\n Body Mass by Species",  # Title of the plot
+    subtitle = "Faceted by Species",  # Subtitle for additional context
+    x = "Flipper Length (mm)",  # X-axis label
+    y = "Body Mass (g)"  # Y-axis label
+  ) +
+  facet_wrap(~species, ncol = 1, strip.position = "top") +  # Facet by species with single column for readability
+  theme(
+    strip.text = element_text(size = 12, face = "bold"),  # Customize facet strip text for better visibility
+    axis.text.x = element_text(angle = 45, hjust = 1),  # Rotate x-axis text for better spacing
+    panel.spacing = unit(1, "lines"),  # Increase spacing between facets
+    plot.title = element_text(size = 18),
+    plot.subtitle = element_text(size = 10)))
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-20 at 19 47 09" src="https://github.com/user-attachments/assets/587742c5-eb3e-4fd0-9ab1-752bd3292e6a">
+</div>
+
+This faceted scatter plot showcases the relationship between body mass and flipper length for each penguin species, highlighting species-specific patterns. The use of facets separates the data into clear, individual panels for each species, while the scatter plot points are color-coded using the scico package's accessible "batlow" palette. A secondary axis translates flipper length from millimeters to centimeters, catering to diverse audiences. Custom scaling ensures consistent axes across panels, while the bbc_style() theme enhances clarity and professionalism. This plot effectively communicates species differences with a clean, visually appealing design.
+
+
+#### Combining Multiple Visualizations into a Cohesive Story - using `patchwork` and `finalise_plot()`
+Now it’s time to bring everything together! We’ll combine all of our awesome plots into one cohesive layout using the patchwork package. And don’t forget—once our masterpiece is ready, we’ll save it in the perfect BBC-style theme using `finalise_plot()`. If you’re thinking “wait, did we learn that already?”—no worries if it’s slipped your mind, we covered a lot! Let’s get it done! 😊
+
+```
+# Combine all plots using patchwork
+(final_plot <- (plot1 / plot2) | plot3 +  # Stack plot1 and plot2, and place plot3 beside them
+  plot_annotation(
+    title = "Exploring Penguin Data: A Visual Journey",
+    subtitle = "Combining multiple visualizations into one cohesive story",
+    caption = "Data: Palmer Penguins | Visualization: BBC-Style"))
+
+# Save the combined plot using finalise_plot
+finalise_plot(
+  plot_name = final_plot,
+  source_name = "Data source: Palmer Penguins dataset",
+  save_filepath = "Tutorial/final_penguin_plot.png")  # Adjust this to your folder structure
+```
+<div align= "center">
+     <img width="500" alt="Screenshot 2024-11-20 at 19 53 51" src="https://github.com/user-attachments/assets/42dc640e-8eb5-45cc-ba82-060f54b2f46d">
+</div>
+
+The first two plots are stacked vertically, while the third plot is placed beside them, forming a coherent and visually appealing narrative. Annotations, including a title, subtitle, and caption, are added to provide context and credit to the data source. The final plot is saved using the finalise_plot() function, ensuring consistency and ease of sharing the final product. This combination of plots brings together different aspects of the penguin data into a powerful, cohesive visualization.
 
 
 ---
@@ -656,33 +757,6 @@ So let’s dive in and get creative! Here’s how to finish strong with the `fin
 
 3. **Going Further**  
    - Introduce integrating these plots into R Markdown reports or Shiny apps.  
-
----
-
-### **Reproducibility**  
-
-1. **Dataset Access**  
-   - Provide a pre-processed version of the dataset along with instructions for loading it.  
-
-2. **Code Availability**  
-   - Full code snippets in the tutorial repository with comments and explanations.  
-
-3. **Dependencies**  
-   - Include a list of required R packages and a script for installing them:  
-     ```r
-     install.packages(c("ggplot2", "patchwork", "scico", "extrafont", "colorblindcheck"))
-     ```  
-
-### **Creativity**  
-
-- **Visual Appeal**  
-  - Include polished visuals with carefully chosen fonts, colors, and layouts.  
-
-- **Interactive Examples**  
-  - Add GIFs or animations to demonstrate dynamic elements (if applicable).  
-
-- **Engaging Narrative**  
-  - Frame examples within a broader data-driven story to maintain interest.  
 
 ---
 
