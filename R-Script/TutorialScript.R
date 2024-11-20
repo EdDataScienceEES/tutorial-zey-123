@@ -380,15 +380,36 @@ penguins_clean <- penguins %>% drop_na()
   plot_annotation(
     title = "Exploring Penguin Data: A Visual Journey",
     subtitle = "Combining multiple visualizations into one cohesive story",
-    caption = "Data: Palmer Penguins | Visualization: BBC-Style"
-  ))
+    caption = "Data: Palmer Penguins | Visualization: BBC-Style")+
+    bbc_style())
+
+# Save the combined plot using finalise_plot
+finalise_plot(final_plot,
+              source = "Source: Data from Palmer Penguins Dataset",
+              save_filepath = "Tutorial/final_penguin_plot.png",
+              width_pixels = 640,
+              height_pixels = 450)
+
+
+
+# File path for the BBC logo image
+logo_image_path <- "/Users/zeynepyuksel/Desktop/bbc.png"  # Adjust the path if needed
+
+
+# Combine all plots using patchwork
+(final_plot <- (plot1 / plot2) | plot3 +  # Stack plot1 and plot2, and place plot3 beside them
+    plot_annotation(
+      title = "Exploring Penguin Data: A Visual Journey",
+      subtitle = "Combining multiple visualizations into one cohesive story",
+      caption = "Data: Palmer Penguins | Visualization: BBC-Style"))
 
 # Save the combined plot using finalise_plot
 finalise_plot(
   plot_name = final_plot,
   source_name = "Data source: Palmer Penguins dataset",
-  save_filepath = "Tutorial/final_penguin_plot.png"  # Adjust this to your folder structure
-)
+  logo_image_path = logo_image_path, 
+  save_filepath = "Tutorial/final_penguin_plot.png")  # Adjust this to your folder structure
+
 
 
 ##############################################
