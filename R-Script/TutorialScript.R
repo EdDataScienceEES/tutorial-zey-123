@@ -145,7 +145,7 @@ penguins_summary <- penguins %>%
         axis.title.y.right = element_text(color = 'slategrey', size = 13),
         plot.title = element_text(size = 25)))  # Adjust the title size - important to know that this can be done at times as bbc theme often times can have titles overflowing.. 
 
-# Part 2c- Facet by species  
+# Part 2c- Facet by species  ----
 # Vertical (by column)
 (Vfaceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
     geom_point(aes(color = species), size = 3) +  
@@ -172,6 +172,163 @@ penguins_summary <- penguins %>%
 
 
 
+# Part 2c- Facet by species  (facet_grid) ----
+# Start with a simple scatterplot
+penguin_plot <- ggplot(penguins, aes(bill_length_mm, flipper_length_mm)) + geom_point()
+
+# Facet into different layouts
+penguin_plot + facet_grid(. ~ species)  # Arrange facets in a single row based on penguin species
+penguin_plot + facet_grid(island ~ .)  # Stack facets in rows based on islands
+penguin_plot + facet_grid(island ~ species)  # Create a grid using rows (islands) and columns (species)
+penguin_plot + facet_wrap(~ species)  # Wrap facets into a rectangular layout automatically
+
+# Let axis scales vary across facets for flexibility
+penguin_plot + facet_grid(island ~ species, scales = "free")  # Both x and y-axis are free
+penguin_plot + facet_grid(island ~ species, scales = "free_x")  # Only x-axis varies
+penguin_plot + facet_grid(island ~ species, scales = "free_y")  # Only y-axis varies
+
+# Customize facet labels for a polished look
+penguin_plot + facet_grid(. ~ species, labeller = label_both)  # Labels show both variable names and values ("species: Adelie", "species: Chinstrap", etc.)
+penguin_plot + facet_grid(species ~ ., labeller = label_bquote(alpha ^ .(species)))  # Use math expressions for labels ("𝛼Adelie", "𝛼Chinstrap", etc.)
+
+
+
+# Part 2d- Refine visual aesthetics while ensuring accessibility with custom themes and color palettes.----
+
+# For categorical data (species)
+(categorical_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +  # Create a ggplot object with penguins data, map 'flipper_length_mm' to x-axis, 'body_mass_g' to y-axis, and color based on 'species' (categorical variable)
+    geom_point(size = 3) +
+    scale_color_scico_d(palette = "batlow") +  # Apply 'scico' discrete color palette (batlow) for categorical data (species). The '_d' indicates a discrete scale.
+    bbc_style() +  
+    labs(  
+      title = "Penguin Data: Species-based Colors",  
+      subtitle = "Using a colorblind-friendly palette for categorical data"  
+    ))
+
+# For continuous data (e.g., body_mass_g)
+(continuous_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = body_mass_g)) +  # Create a ggplot object with 'body_mass_g' as the color aesthetic (continuous variable)
+    geom_point(size = 3) + 
+    scale_color_scico(palette = "bilbao", begin = 0, end = 1) +  # Apply 'scico' continuous color palette (bilbao) for continuous data ('body_mass_g'). The 'begin' and 'end' control the color range.
+    bbc_style() +
+    theme(plot.title = element_text(size = 25),
+          legend.position = "none"  # Hide the legend (including the color gradient) to reduce clutter in the plot and focus the viewer’s attention on the data points themselves, especially since the color scale is self-explanatory/ not needed for context.
+    ) +
+    labs(
+      title = "Penguin Data: Body Mass with Continuous Colors",  
+      subtitle = "Using a colorblind-friendly palette for continuous data"  
+    ))
+
+
+# Part 2d -Check for colorblind accessibility----
+# 1. Accessibility check for the categorical plot (species-based colors)
+# Extract the discrete palette used in the plot ('batlow' with 3 colors for species)
+categorical_palette <- scico(3, palette = "batlow", categorical = TRUE)
+# Check how this discrete palette appears for individuals with color vision deficiencies
+palette_check(categorical_palette)
+
+# 2. Accessibility check for the continuous plot (body_mass_g-based colors)
+# Extract the continuous palette ('bilbao', spanning from 0 to 1)
+continuous_palette <- scico(5, palette = "bilbao", begin = 0, end = 1)
+# Check how this continuous palette appears for individuals with color vision deficiencies
+palette_check(continuous_palette)
+
+
+
+# Part 3:----
+
+# Create the first plot (species vs flipper_length_mm)
+(plot1 <- ggplot(penguins, aes(x = species, y = flipper_length_mm, fill = species)) +
+  geom_boxplot() +                           # Creates a boxplot for flipper length across species
+  scale_fill_scico_d(palette = "batlow") +    # Applies a discrete color palette for the species variable
+  labs(title = "Flipper Length by Species",   # Adds a title to the plot
+       subtitle = "Boxplot of flipper lengths across penguin species") +
+  bbc_style())                                 # Apply BBC style directly
+
+# Create the second plot (body_mass_g vs flipper_length_mm)
+(plot2 <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 3) +                       # Scatter plot showing body mass vs flipper length
+  scale_color_scico_d(palette = "batlow") +     # Discrete color palette for the species variable
+  labs(title = "Body Mass vs Flipper Length",  # Adds a title to the plot
+       subtitle = "Scatter plot with species-based coloring") +
+  bbc_style())                                 # Apply BBC style directly
+
+
+# Create the third plot (density plot for body mass)
+(plot3 <- ggplot(penguins, aes(x = body_mass_g, fill = species)) +
+  geom_density(alpha = 0.5) +                  # Creates a density plot for body mass with transparency
+  scale_fill_scico_d(palette = "batlow") +      # Applies the same discrete color palette for species
+  labs(title = "Body Mass Distribution",       # Adds a title to the plot
+       subtitle = "Density plot for penguin body mass across species") +
+  bbc_style())                                # Apply BBC style directly
+
+
+# Combine the plots using patchwork to create a cohesive layout
+(final_plot <- plot1 + plot2 + plot3 +            # Combine the three plots
+  plot_layout(ncol = 1) +                       # Arrange plots in one column
+  plot_annotation(title = "Penguin Data Story",  # Add an overarching title
+                  subtitle = "Exploring Penguin Species and Traits")) # Subtitle for context
+
+#Making adjustments to the graphs as bbc produces big unreadable graphs:
+# Create the first plot (species vs flipper_length_mm)
+plot1 <- ggplot(penguins, aes(x = species, y = flipper_length_mm, fill = species)) +
+  geom_boxplot() +                           # Creates a boxplot for flipper length across species
+  scale_fill_scico_d(palette = "batlow") +    # Applies a discrete color palette for the species variable
+  labs(title = "Flipper Length by Species",   # Adds a title to the plot
+       subtitle = "Boxplot of flipper lengths across penguin species") +
+  bbc_style() +                               # Apply BBC style directly
+  theme(plot.title = element_text(size = 12), # Adjust title size for better fitting
+        plot.subtitle = element_text(size = 10), # Adjust subtitle size for better fitting
+        axis.text = element_text(size = 10))      # Adjust axis text size for better fitting
+
+# Create the second plot (body_mass_g vs flipper_length_mm)
+plot2 <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 3) +                       # Scatter plot showing body mass vs flipper length
+  scale_color_scico_d(palette = "batlow") +     # Discrete color palette for the species variable
+  labs(title = "Body Mass vs Flipper Length",  # Adds a title to the plot
+       subtitle = "Scatter plot with species-based coloring") +
+  bbc_style() +                                # Apply BBC style directly
+  theme(plot.title = element_text(size = 12),  # Adjust title size for better fitting
+        plot.subtitle = element_text(size = 10), # Adjust subtitle size for better fitting
+        axis.text = element_text(size = 10))      # Adjust axis text size for better fitting
+
+# Create the third plot (density plot for body mass)
+plot3 <- ggplot(penguins, aes(x = body_mass_g, fill = species)) +
+  geom_density(alpha = 0.5) +                  # Creates a density plot for body mass with transparency
+  scale_fill_scico_d(palette = "batlow") +      # Applies the same discrete color palette for species
+  labs(title = "Body Mass Distribution",       # Adds a title to the plot
+       subtitle = "Density plot for penguin body mass across species") +
+  bbc_style() +                               # Apply BBC style directly
+  theme(plot.title = element_text(size = 12),  # Adjust title size for better fitting
+        plot.subtitle = element_text(size = 10), # Adjust subtitle size for better fitting
+        axis.text = element_text(size = 10))      # Adjust axis text size for better fitting
+
+# Combine the plots using patchwork to create a cohesive layout
+(final_plot <- plot1 + plot2 + plot3 +            # Combine the three plots
+  plot_layout(ncol = 1,                         # Arrange plots in one column
+              heights = c(1, 1, 1)) +            # Set the height of each plot to be the same (you can adjust these if needed)
+  plot_annotation(title = "Penguin Data Story",  # Add an overarching title
+                  subtitle = "Exploring Penguin Species and Traits")) # Subtitle for context
+
+
+#To stack plots vertically:
+plot1 / plot2
+#To place plots side by side:
+plot1 | plot2
+#You can combine these operators for more complex layouts:
+plot1 | (plot2 / plot3)
+#You can add an overall title or captions with `plot_annotation()`:
+(plot1 | (plot2 / plot3)) + plot_annotation(title = "Penguin Data Analysis")
+plot1 + plot2 + plot3 + plot_layout(ncol = 2) + plot_annotation(tag_levels = 'I')
+
+
+# Part 4 ----
+
+
+final_plot<- finalise_plot(plot_name = final_plot,
+                           source = "Source: Data from Palmer Penguins Dataset",
+                           save_filepath = "Tutorial/Figure2-FinalPlot.png",
+                           width_pixels = 640,
+                           height_pixels = 450)
 
 
 
@@ -180,37 +337,6 @@ penguins_summary <- penguins %>%
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-## Visualization 3: Combining Plots with patchwork
-# Combine the two plots
-plot1 <- ggplot(global_waste_continent, aes(x = Year, y = Share.of.global.plastics.emitted.to.ocean, color = Entity)) +
-  geom_line(size = 1.2) +
-  labs(title = "Global Plastic Waste Trends by Continent") +
-  theme_minimal()
-
-plot2 <- ggplot(waste_items_long, aes(x = Region, y = Amount, fill = Entity)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Top Waste Items by Region") +
-  theme_classic()
-
-combined_plot <- plot1 + plot2 + 
-  plot_annotation(title = "BBC-Style Data Visualizations",
-                  theme = theme(plot.title = element_text(size = 20, face = "bold")))
-print(combined_plot)
-
-## Visualization 4: Accessibility Check
-# Check for colorblind accessibility
-colorblindcheck::palette_check(scico(5, palette = "roma"))
 
 # Final Steps: Save the plots
 ggsave("global_waste_plot.png", plot = plot1, dpi = 300, width = 10, height = 6)
