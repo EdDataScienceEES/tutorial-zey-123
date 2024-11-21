@@ -2,7 +2,6 @@
 
 <h1 style="color: turquoise;">Advanced Data Visualization: Creating BBC-Style Plots in R (Part 3)</h1>
 
-# Advanced Data Visualization: Creating BBC-Style Plots in R (Part 3)
 ---
 
 > <p align="center"> Created by Zeynep Yuksel - November 2024 </p>
@@ -19,29 +18,54 @@
 
 ## Introduction & Overview
 
-This tutorial explores advanced data visualization techniques in R, focusing on creating professional, BBC-style graphics using **ggplot2** and supplementary packages like **patchwork** and **scico**. By the end, learners will be equipped to produce publication-ready visuals with polished themes, cohesive color palettes, and multi-panel layouts.  
+This tutorial explores advanced data visualization techniques in R, focusing on creating professional, BBC-style graphics using `ggplot2` and supplementary packages like `patchwork` and `scico`. It’s a fantastic tool for seeing what’s possible to elevate your plots to BBC-level standards,offering a starting point for those looking to improve their visuals. This is about exploring the range of options available to you as you get comfortable with the techniques. By the end, learners will be equipped to produce publication-ready visuals with polished themes, cohesive color palettes, and multi-panel layouts.  
 
-This tutorial targets advanced data visualization enthusiasts, such as 4th-year environmental/ecological science students, looking to elevate their storytelling through polished and professional graphs. The tutorial uses the `palmerpenguins` package on R, which is a dataset containing information on three penguin species (Adelie, Chinstrap and Gentoo) from the Palmer Archipelago, Antarctica. 
+Targeted at advanced data visualization enthusiasts (especially honours-year environmental/ecological science students), this tutorial is perfect for those who want to take their graphs to the next level. We’ll be using the `palmerpenguins` package, an open-source dataset containing information on three penguin species (Adelie, Chinstrap, and Gentoo) from the Palmer Archipelago in Antarctica (see citation at the end).
 
 Prior to tackling this tutorial, make sure that you have covered part 1 and 2 of coding club Data Visualisation tutorials to make the most of this one :)
 
 ---
 
-### Tutorial Aims  
-
-1. Master advanced features of `ggplot2` for data storytelling.  
-2. Learn to use `patchwork` for creating cohesive multi-panel layouts.  
-3. Apply BBC-style aesthetics and design principles, leveraging the `scico` package for stunning and accessible color schemes.  
-
----
-
-### Learning Objectives  
+### Learning Objectives & Tutorial Aims
 
 By completing this tutorial, learners will be able to:  
-1. Utilize advanced `ggplot2` techniques, including annotations, custom themes, and secondary axes.  
-2. Combine multiple plots seamlessly using the `patchwork` package.  
+1. Apply BBC-style design principles, such as clarity, simplicity, and impactful storytelling, making use of the `bbplot` package.  
+2. Utilize advanced `ggplot2` techniques, including annotations, custom themes, and secondary axes.
 3. Apply color palettes from the `scico` package to ensure accessibility and visual appeal.  
-4. Replicate BBC-style design principles, such as clarity, simplicity, and impactful storytelling.  
+4. Combine multiple plots seamlessly using the `patchwork` package.  
+
+---
+### Tutorial Steps  
+
+1. Introduction to BBC-Style Design
+   
+   a. What Makes a Plot "BBC-Style" and the necessary libraries
+   
+   b. Introduction to using the `bbplot` package to make a simple line chart
+   
+3. Advanced `ggplot2` Techniques
+   
+   a. Adding annotations to highlight key points
+   
+   b. Adding depth to plots with secondary axes
+   
+   c. Showcasing patterns across groups using faceted layouts
+   
+   d. Refining visual aesthetics while ensuring accessibility with `scico`
+   
+5. Cohesive Multi-Panel Layouts with `patchwork`
+   
+   a. Combining Plots into a Story   
+
+   b. Exploring different adjustments that can be done
+   
+7. Putting It All Together—Creating a Complete BBC-Style Plot
+   
+   a. Combine all techniques into a final visualization
+   
+   b. Combining multiple visualizations into a cohesive Story
+   
+9. Wrap Up!
 
 ---
 ## Installing data
@@ -49,7 +73,7 @@ We will be using the `palmerpenguins` package on R, which contains two datasets 
 
 This dataset is particularly relevant for creating BBC-style plots as it provides a clean, well-structured dataset with distinct categorical variables (species) and quantitative variables (bill length, flipper length, body mass, etc.), which are ideal for showcasing clear and impactful visualizations. BBC-style plots emphasize clarity and effective storytelling, and the penguins dataset allows us to explore and visualize data patterns in a way that aligns with these principles, such as comparing trends, emphasizing key data points, and maintaining an engaging yet simple design.
 
-[Click here to read more on this dataset](https://allisonhorst.github.io/palmerpenguins/) 
+[Click here to read more on this dataset!](https://allisonhorst.github.io/palmerpenguins/) 
 
 To install:
 ```r
@@ -59,7 +83,7 @@ library(palmerpenguins)
 head(penguins)
 view(penguins)
 ```
-**Additionally,** the repository containing the script that will be used in this tutorial can be forked to your own GitHub account and added as a new RStudio project by copying the HTTPS link. Follow [this link](https://github.com/EdDataScienceEES/tutorial-zey-123) to access the repo and clone. Make a new script file making sure its informative and has your info, remember, following the coding etiquette covered in previous tutorials is an important practice to adopt at this stage.
+**Additionally,** the repository containing the script that will be used in this tutorial can be forked to your own GitHub account and added as a new RStudio project by copying the HTTPS link. Follow [this link](https://github.com/EdDataScienceEES/tutorial-zey-123) to access the repo and clone. Make a new script file making sure its informative and has your info, remember, following the [coding etiquette](https://ourcodingclub.github.io/tutorials/etiquette/) covered in previous tutorials is an important practice to adopt at this stage.
 
 ```r
 # Data visualisation tutorial (part 3)
@@ -651,8 +675,8 @@ We’ll be finishing off our penguin data story by bringing in multiple elements
 
 So let’s dive in and get creative! Here’s how to finish strong with the `finalise_plot()` function, ensuring that everything is just right!
 
- **Combine Techniques into a Final Visualization**  
-   - Incorporate all elements: advanced `ggplot2` features, `patchwork` layouts, and `scico` color palettes.
+#### 4.a. Combine Techniques into a Final Visualization: 
+Incorporating all elements: advanced `ggplot2` features,`bbplot` functions, `patchwork` layouts, and `scico` color palettes.
 
 #### Mastering Annotations, Trend Lines, and BBC-Style Visuals: Flipper Length vs. Body Mass
 
@@ -732,7 +756,7 @@ This plot uses a density visualization to highlight how the body mass of penguin
 This faceted scatter plot showcases the relationship between body mass and flipper length for each penguin species, highlighting species-specific patterns. The use of facets separates the data into clear, individual panels for each species, while the scatter plot points are color-coded using the scico package's accessible "batlow" palette. A secondary axis translates flipper length from millimeters to centimeters, catering to diverse audiences. Custom scaling ensures consistent axes across panels, while the bbc_style() theme enhances clarity and professionalism. This plot effectively communicates species differences with a clean, visually appealing design.
 
 
-#### Combining Multiple Visualizations into a Cohesive Story - using `patchwork` and `finalise_plot()`
+#### 4.b. Combining Multiple Visualizations into a Cohesive Story - using `patchwork` and `finalise_plot()`
 Now it’s time to bring everything together! We’ll combine all of our awesome plots into one cohesive layout using the patchwork package. And don’t forget—once our masterpiece is ready, we’ll save it in the perfect BBC-style theme using `finalise_plot()`. If you’re thinking “wait, did we learn that already?”—no worries if it’s slipped your mind, we covered a lot! Let’s get it done! 😊
 
 When working with R, it’s important to remember that unexpected challenges can arise—sometimes even with otherwise seamless tools. The **bbplot** package, for instance, is designed primarily for single plots. As a result, using **patchwork** in combination with `finalise_plot()` can lead to compatibility issues. However, as is often the case in R, there are multiple creative solutions to tackle such problems.  
@@ -816,15 +840,13 @@ ggsave(
   dpi = 300
 )
 ```
-
 This gives us the following graph with `finalise_plot()` features like captions added manually.
 
 <div align= "center">
      <img width="550" alt="Screenshot 2024-11-21 at 15 49 31" src="https://github.com/user-attachments/assets/e3ecf61a-01fa-4884-9216-d54e575dbdbc">
 </div>
 
-The first two plots are stacked vertically, while the third plot is placed beside them, forming a coherent and visually appealing narrative. Annotations, including a title, subtitle, and caption, are added to provide context and credit to the data source. The final plot is saved using the `finalise_plot()` function, ensuring consistency and ease of sharing the final product. This combination of plots brings together different aspects of the penguin data into a powerful, cohesive visualization.
-
+We’ve succesfully pulled off the ultimate data visualization remix by combining multiple plots into a cohesive masterpiece using the **patchwork** package! Who knew that making sense of penguin data could be this fun? While **bbplot** is designed for single plots, we’ve flexed our creative muscles and found clever workarounds to keep our style intact. Whether you’re saving individual plots with `finalise_plot()` or adding some personal flair to a combined plot saved with **ggsave()**, both approaches let you share your work in style. So, whether you’re tackling penguins or another dataset, remember: R is full of surprises, and with a little creativity, you can always find a way to make your visualizations shine!
 
 
 ---
@@ -867,12 +889,17 @@ Future Reading:
 [click here!](https://ourcodingclub.github.io/tutorials/data-manip-intro/)
 * More on using controlling layouts with patchwork: [click here!](https://cran.r-project.org/web/packages/patchwork/vignettes/patchwork.html)
 * More on aligning plots across multiple pages using patchwork: [click here!](https://patchwork.data-imaginist.com/articles/guides/multipage.html)
-  
+
+Citation:
+
+_Alongside the sources used that were linked throughout the tutorial and can be found in the future readings & related tutorials above, the `palmerpenguins` dataset was used_:
+
+Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer Archipelago (Antarctica) penguin data. doi:10.5281/zenodo.3960218, R package version 0.1.0, https://allisonhorst.github.io/palmerpenguins/.
 
 ---
 
-### **Why This Tutorial Stands Out**  
+_**Why This Tutorial Stands Out**_  
 
-1. **Relevance:** Focuses on advanced visualization techniques highly applicable to scientific and journalistic work.  
-2. **Depth:** Goes beyond basics by introducing new packages and design principles.  
-3. **Creativity:** Integrates aesthetics, accessibility, and multi-panel storytelling for impactful visuals.
+_1. **Relevance:** Focuses on advanced visualization techniques highly applicable to scientific and journalistic work._  
+_2. **Depth:** Goes beyond basics by introducing new packages and design principles._  
+_3. **Creativity:** Integrates aesthetics, accessibility, and multi-panel storytelling for impactful visuals._
