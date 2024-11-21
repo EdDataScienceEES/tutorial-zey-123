@@ -857,7 +857,9 @@ As we wrap up, let’s celebrate the insights gained through today’s explorati
      <img width="350" alt="Screenshot 2024-11-21 at 12 00 40" src="https://github.com/user-attachments/assets/518086f4-6060-453f-81f5-bb0aa034de96">
 </div>
 
-_<p align="center"> A Penguin in its Natural Habitat (clearly celebrating the end of this looong tutorial with us!). Source: **National Geographic** </p>_
+<div align= "center">
+     A Penguin in its Natural Habitat (clearly celebrating the end of this looong tutorial with us!).Source:National Geographic
+</div>
 
 
 
