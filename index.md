@@ -844,7 +844,7 @@ Remember, the goal of this tutorial isn’t for you to memorize every function, 
 
 ---
 
-_If you have any questions or feedback,  don't hesitate to reach out to me on [zeynepdenizyuksel2004@gmail.com]_
+_If you have any questions or feedback,  don't hesitate to reach out to me on zeynepdenizyuksel2004@gmail.com_
 
 ---
 
