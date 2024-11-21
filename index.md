@@ -727,27 +727,86 @@ This faceted scatter plot showcases the relationship between body mass and flipp
 #### Combining Multiple Visualizations into a Cohesive Story - using `patchwork` and `finalise_plot()`
 Now it’s time to bring everything together! We’ll combine all of our awesome plots into one cohesive layout using the patchwork package. And don’t forget—once our masterpiece is ready, we’ll save it in the perfect BBC-style theme using `finalise_plot()`. If you’re thinking “wait, did we learn that already?”—no worries if it’s slipped your mind, we covered a lot! Let’s get it done! 😊
 
-```
-# Combine all plots using patchwork
-(final_plot <- (plot1 / plot2) | plot3 +  # Stack plot1 and plot2, and place plot3 beside them
-  plot_annotation(
-    title = "Exploring Penguin Data: A Visual Journey",
-    subtitle = "Combining multiple visualizations into one cohesive story",
-    caption = "Data: Palmer Penguins | Visualization: BBC-Style"))
+When working with R, it’s important to remember that unexpected challenges can arise—sometimes even with otherwise seamless tools. The **bbplot** package, for instance, is designed primarily for single plots. As a result, using **patchwork** in combination with `finalise_plot()` can lead to compatibility issues. However, as is often the case in R, there are multiple creative solutions to tackle such problems.  
 
-# Save the combined plot using finalise_plot
-finalise_plot(
-  plot_name = final_plot,
-  source_name = "Data source: Palmer Penguins dataset",
-  save_filepath = "Tutorial/final_penguin_plot.png")  # Adjust this to your folder structure
+To save and style your plots effectively, you can take one of two approaches:  
+1. **Save individual plots with `finalise_plot()`**: This method is straightforward and allows you to take full advantage of bbplot’s styling features. Useful when you want to save individual plots and refer to plots seperately as opposed to together. 
+2. **Use patchwork for combined plots and add features manually**: If you want to display multiple plots together, you can replicate the styling elements provided by `finalise_plot()`—like annotations and branding—and save the combined figure using `ggsave()`.  
+
+Below, we demonstrate both approaches and highlight the outcomes they produce.
+
+
+**Approach 1:** Saving individual plots with `finalise_plot()`: 
+To remind yourself on the arguments needed for `finalise-plot()`, feel free to scroll back up to part 1b :). The plots below are all set to save in the repository's "Tutorial" folder. 
+
 ```
+# Save Plot 1
+finalise_plot(
+  plot_name = plot1,
+  source = "Source: Palmer Penguins Dataset",
+  save_filepath = "Tutorial/plot1.png",
+  logo_image_path = logo_image_path,
+  width_pixels = 640,
+  height_pixels = 450)
+
+# Save Plot 2
+finalise_plot(
+  plot_name = plot2,
+  source = "Source: Palmer Penguins Dataset",
+  save_filepath = "Tutorial/plot2.png",
+  logo_image_path = logo_image_path,
+  width_pixels = 640,
+  height_pixels = 450)
+
+# Save Plot 3
+finalise_plot(
+  plot_name = plot3,
+  source = "Source: Palmer Penguins Dataset",
+  save_filepath = "Tutorial/plot3.png",
+  logo_image_path = logo_image_path,
+  width_pixels = 640,
+  height_pixels = 450)
+```
+This gives us the following graphs :
+
+
+**Approach 2:** Use `patchwork` for combined plots and add features manually:
+To 
+
+```
+# Combine the original plots using patchwork
+(final_combined_plot <- ((plot1 / plot2) | plot3) + # Stack plot1 and plot2, and place plot3 beside them
+    plot_annotation(
+      title = "Exploring Penguin Data: A Visual Journey",
+      subtitle = "Combining multiple visualizations into one cohesive story",
+      caption = "Data: Palmer Penguins | Visualization: BBC-Style"
+    ))
+
+# Save the combined plot directly with ggsave()
+ggsave(
+  filename = "Tutorial/final_combined_plot.png",
+  plot = final_combined_plot,
+  width = 12,  # Adjust as needed
+  height = 8,  # Adjust as needed
+  dpi = 300
+)
+```
+
+This gives us the following graph with `finalise_plot()` features like captions added manually.
+
+
+
+
+
+
+
+
 <div align= "center">
      <img width="500" alt="Screenshot 2024-11-20 at 19 53 51" src="https://github.com/user-attachments/assets/42dc640e-8eb5-45cc-ba82-060f54b2f46d">
 </div>
 
 The first two plots are stacked vertically, while the third plot is placed beside them, forming a coherent and visually appealing narrative. Annotations, including a title, subtitle, and caption, are added to provide context and credit to the data source. The final plot is saved using the finalise_plot() function, ensuring consistency and ease of sharing the final product. This combination of plots brings together different aspects of the penguin data into a powerful, cohesive visualization.
 
-**Problem**: bbplot is desgined for single plot.... therefore patchwork and finalise_plot() do not necessarily work well together. For this reason....So the solutions for this is to either save individual plots using the `finalise_plot()` function OR to add features finalise_plot add manually and ggsave this as below. 
 
 
 ---
