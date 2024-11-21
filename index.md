@@ -771,20 +771,6 @@ finalise_plot(
 ```
 This gives us the following graphs :
 
-
-<div align="center">
-
-| Plot 1                                                                                         | Plot 2                                                                                         |
-|------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| <img width="400" alt="Plot 1" src="https://github.com/user-attachments/assets/cc734104-60f1-43cf-9f6e-f4ff18b77c00"> | <img width="400" alt="Plot 2" src="https://github.com/user-attachments/assets/1d1650b3-adce-4d3a-818e-98fc7e75faeb"> |
-
-| Plot 3                                                                                         |
-|------------------------------------------------------------------------------------------------|
-| <img width="400" alt="Plot 3" src="https://github.com/user-attachments/assets/f85c6559-2bc5-4205-98e1-021203b7735e"> |
-
-</div>
-
-
 <div style="display: flex; justify-content: center;">
 
   <!-- Plot 1 and Plot 2 in the same row -->
@@ -801,7 +787,6 @@ This gives us the following graphs :
 <div style="text-align: center; margin-top: 20px;">
   <img width="400" alt="Plot 3" src="https://github.com/user-attachments/assets/f85c6559-2bc5-4205-98e1-021203b7735e">
 </div>
-
 
 
 **Approach 2:** Use `patchwork` for combined plots and add features manually:
