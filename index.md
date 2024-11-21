@@ -1,16 +1,9 @@
 ---
-layout: tutorial
-title: Advanced Data Visualization
-subtitle: Creating BBC-Style Plots in R (Part 3)
-date: 2024-21-11 19:00:00
-author: Zeynep Yuksel
-redirect_from:
-  - /2020/02/02/dataviz-beautification.html
-tags: data-vis intermediate advanced
----
 # Advanced Data Visualization: Creating BBC-Style Plots in R (Part 3)
 ---
+
 > <p align="center"> Created by Zeynep Yuksel - November 2024 </p>
+
 ---
 <div align= "center">
      <img width="500" alt="Screenshot 2024-11-19 at 13 57 55" src="https://github.com/user-attachments/assets/428de24c-0989-4c09-90b5-21db51c4d52f">
@@ -125,7 +118,7 @@ To start off, we can look deeper into the main package necessary for obtaining t
 
 Below is an example of how the `bbc_style()` and its two functions can be used. This is an example for a simple line chart, using data from `palmerpenguins` package. 
 
-```
+```r
 # Prepare the data by grouping by year and calculating the average body mass
 line_df <- penguins %>%
   group_by(year) %>%
@@ -170,7 +163,7 @@ Get ready to enhance the polished aesthetics of BBC-style visuals and transform 
 Annotations are helpful for drawing attention to specific data points or trends in your visualization. We can use annotations with our penguin data to call out for important clusters or outliers when making a new scatter plot, showing us the relationship pengiun body mass vs flipper length. The easiest way to do this is by using the `annotate()` function. 
 
 #### Adding annotations with the `annotate()` function
-```
+```r
 # Adding annotations (Highlighting a key year in the penguins dataset)  
 (annotated_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  #Mapping the x-axis to flipper_length_mm and the y-axis to body_mass_g.
     geom_point(aes(color = species), size = 3) +  #Plotting individual penguins as points on the chart, and coloring these points based on the species of penguin, setting size to 3. 
@@ -187,7 +180,7 @@ This gives us the following output:
 
 The exact positioning of the annotation depends on the `x` and `y` arguments. We can also insert line breaks in our label using `\n` and adjust the spacing between lines with the `lineheight` parameter.
 
-```
+```r
 #Adding line breaks
 (annotated_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
     geom_point(aes(color = species), size = 3) +
@@ -207,7 +200,7 @@ Luckily, there’s a smarter way to add data-based labels that saves both time a
 
 By using `geom_label()`, you can directly tie annotations to your data. Here’s an example applied to the penguin dataset, where each datapoint gets labels with just one line of code. 
 
-```
+```r
 #Adding labels based on data
 (labelled_clusters <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
   geom_point(aes(color = species), size = 3) +
@@ -235,7 +228,7 @@ As you can see, this does end up looking a bit messy- definitely not the best ch
 #### Adding a line
 Finally, among the many annotation features offered by ggplot2, one important capability to highlight is the ability to add an arrow. This feature can be very useful for drawing attention to specific parts of your plot. To do this, we will use the `geom_segment` function. 
 
-```
+```r
 # Adding arrows 
 annotated_plot + geom_curve(aes(x = 205, y = 3800, xend = 200, yend = 3700),  # Set the start and end points of the arrow. If x/yend> x/y then the curve downward curve (sad face), if otherwise than upward smile :)
              colour = "#555555", #Setting the color of the curve to a light gray shade for subtle visibility.
@@ -260,7 +253,7 @@ Now that you've nailed several ways to annotate your graphics, it's time to leve
 
 We can see how this is done with our penguins dataset to show penguin body mass in both grams and pounds. 
 
-```
+```r
 # Using a secondary y-axis to show body mass in pounds  
 (secondary_axis_plot <- ggplot(penguins, aes(x = bill_length_mm, y = body_mass_g)) +  
   geom_point(aes(color = species), size = 3) +  # Scatter plot with color-coded species  
@@ -285,7 +278,7 @@ And `name = "Body Mass (lbs)"` assigns a label to the secondary axis to clearly 
 #### Using secondary axes to combine line and bar charts
 This is another common use of secondary axes in data visualization. This allows for the visualization and comparison of two related but differently scaled variables in a single, easy-to-understand plot. 
 
-```
+```r
 # Summarize data by species and calculate mean flipper length and body mass
 penguins_summary <- penguins %>%
   group_by(species) %>%
