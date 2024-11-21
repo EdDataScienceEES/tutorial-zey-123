@@ -233,7 +233,6 @@ continuous_palette <- scico(5, palette = "bilbao", begin = 0, end = 1)
 palette_check(continuous_palette)
 
 
-
 # Part 3:----
 
 # Create the first plot (species vs flipper_length_mm)
@@ -324,7 +323,7 @@ plot1 + plot2 + plot3 + plot_layout(ncol = 2) + plot_annotation(tag_levels = 'I'
 # Part 4 ----
 
 
-# Prepare data: Use the penguins dataset and remove any NA values
+# 4.a. Prepare data: Use the penguins dataset and remove any NA values----
 penguins_clean <- penguins %>% drop_na()
 
 # Create the first plot: Flipper length vs. Body mass with a trend line and annotation
@@ -376,6 +375,7 @@ penguins_clean <- penguins %>% drop_na()
 
 
 
+# 4.b.----
 # File path for the BBC logo image
 logo_image_path <- "/Users/zeynepyuksel/Desktop/bbc.png"  # Adjust the path if needed
 
@@ -425,47 +425,6 @@ ggsave(
   height = 8,  # Adjust as needed
   dpi = 300
 )
-
-
-
-
-
-# Save the combined plot using finalise_plot
-finalise_plot(plot1,
-              source = "Source: Data from Palmer Penguins Dataset",
-              save_filepath = "Tutorial/final_penguin_plot.png",
-              logo_image_path = logo_image_path,
-              width_pixels = 640,
-              height_pixels = 450)
-finalise_plot(plot2,
-              source = "Source: Data from Palmer Penguins Dataset",
-              save_filepath = "Tutorial/final_penguin_plot.png",
-              logo_image_path = logo_image_path,
-              width_pixels = 640,
-              height_pixels = 450)
-finalise_plot(plot3,
-              source = "Source: Data from Palmer Penguins Dataset",
-              save_filepath = "Tutorial/final_penguin_plot.png",
-              logo_image_path = logo_image_path,
-              width_pixels = 640,
-              height_pixels = 450)
-
-
-
-
-
-# Save the combined plot using finalise_plot
-finalise_plot(
-  plot_name = final_plot,
-  source_name = "Data source: Palmer Penguins dataset",
-  logo_image_path = logo_image_path, 
-  save_filepath = "Tutorial/final_penguin_plot.png")  # Adjust this to your folder structure
-
-
-
-
-
-
 
 
 
