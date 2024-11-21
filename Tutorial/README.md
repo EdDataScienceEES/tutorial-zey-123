@@ -750,14 +750,14 @@ The first two plots are stacked vertically, while the third plot is placed besid
 As we wrap up, let’s celebrate the insights gained through today’s exploration! We've made it through a comprehensive visual analysis of penguin data, and by the end of this journey, you should have a solid grasp of how to create impactful, BBC-style plots using ggplot2, patchwork, and the scico package. Our final visual story, created in part 4, shows how well we can bring together multiple elements—annotations, custom themes, faceted layouts, and more—to tell a cohesive and compelling data story.
 
 <div align= "center">
-     <img width="400" alt="Screenshot 2024-11-21 at 12 00 40" src="https://github.com/user-attachments/assets/518086f4-6060-453f-81f5-bb0aa034de96">
+     <img width="350" alt="Screenshot 2024-11-21 at 12 00 40" src="https://github.com/user-attachments/assets/518086f4-6060-453f-81f5-bb0aa034de96">
 </div>
 
-_A Penguin in its Natural Habitat (clearly celebrating the end of this looong tutorial with us!). Source: National Geographic_
-<ins>
+_<p align="center"> A Penguin in its Natural Habitat (clearly celebrating the end of this looong tutorial with us!). Source: **National Geographic** </p>_
 
-**By now, you should have:</ins>**
 
+
+**By now, you should have:**
 * Broadly understood advanced plotting techniques with ggplot2 and patchwork to combine multiple plots into one cohesive visual narrative.
 * Gained a deeper understanding of how to apply BBC-style design principles, creating professional, clean, and effective visualizations.
 * Discovered how to enhance your plots with annotations, secondary axes, and creative color palettes for accessibility and visual appeal.
@@ -768,7 +768,7 @@ Remember, the goal of this tutorial isn’t for you to memorize every function, 
 
 ---
 
-If you have any questions or feedback,  don't hesitate to reach out to me on zeynepdenizyuksel2004@gmail.com
+_If you have any questions or feedback,  don't hesitate to reach out to me on [zeynepdenizyuksel2004@gmail.com]_
 
 ---
 
@@ -777,7 +777,7 @@ Related Tutorials:
 * Data Visualization 2 (customising your figures): [https://ourcodingclub.github.io/tutorials/data-vis-2/]
 * Getting Started with Shiny (creating interactive web apps using the R language): [https://ourcodingclub.github.io/tutorials/shiny/]
 * Storytelling with data (data visualisation meets graphic design to tell scientific stories): [https://ourcodingclub.github.io/tutorials/dataviz-storytelling/]
-* 
+  
 
 Future Reading:
 * More on data visualization, the data-vis cheat sheet: [https://rstudio.github.io/cheatsheets/html/data-visualization.html]
@@ -785,27 +785,7 @@ Future Reading:
 [https://ourcodingclub.github.io/tutorials/data-manip-intro/]
 * More on using controlling layouts with patchwork: [https://cran.r-project.org/web/packages/patchwork/vignettes/patchwork.html]
 * More on aligning plots across multiple pages using patchwork: [https://patchwork.data-imaginist.com/articles/guides/multipage.html]
-* 
-
-
----
-
-
- **Recreate a BBC Plot**  
-   - Challenge learners to replicate a provided example using real-world data.  
-
- **Create Your Own Story**  
-   - Encourage learners to visualize a dataset of their choice using the skills learned.  
-
- **Going Further**  
-   - Introduce integrating these plots into R Markdown reports or Shiny apps.  
-
-
-### **Conclusion**  
-
-1. Summarize key skills and their applications.  
-2. Provide resources for further learning: links to ggplot2, scico, patchwork documentation.  
-3. Encourage learners to share their plots and stories with the community.  
+  
 
 ---
 
