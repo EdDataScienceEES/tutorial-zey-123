@@ -68,7 +68,9 @@ view(penguins)
 Simplicity, clarity, accessibility, and storytelling. Some examples of BBC plots and their applications in science and journalism:
   
    ![image](https://github.com/user-attachments/assets/e05474b2-e863-4358-84c0-589d97cb84f2)
-_<p align="center"> **Source:** BBC Data Journalism cookbook </p>_
+<div align= "center">
+     Source: BBC Data Journalism cookbook 
+</div>
 
 To make graphics that adhere to the BBC style as seen above and will be used to advance in data visualization through this tutorial, certain packages need to be installed and loaded: 
 
@@ -862,18 +864,18 @@ _If you have any questions or feedback,  don't hesitate to reach out to me on [z
 ---
 
 Related Tutorials:
-* Beautiful and Informative Data-vis (starters on ggplot2): [https://ourcodingclub.github.io/tutorials/datavis/]
-* Data Visualization 2 (customising your figures): [https://ourcodingclub.github.io/tutorials/data-vis-2/]
-* Getting Started with Shiny (creating interactive web apps using the R language): [https://ourcodingclub.github.io/tutorials/shiny/]
-* Storytelling with data (data visualisation meets graphic design to tell scientific stories): [https://ourcodingclub.github.io/tutorials/dataviz-storytelling/]
+* Beautiful and Informative Data-vis (starters on ggplot2): [click here!](https://ourcodingclub.github.io/tutorials/datavis/)
+* Data Visualization 2 (customising your figures): [here!](https://ourcodingclub.github.io/tutorials/data-vis-2/)
+* Getting Started with Shiny (creating interactive web apps using the R language): [click here!](https://ourcodingclub.github.io/tutorials/shiny/)
+* Storytelling with data (data visualisation meets graphic design to tell scientific stories): [click here!](https://ourcodingclub.github.io/tutorials/dataviz-storytelling/)
   
 
 Future Reading:
-* More on data visualization, the data-vis cheat sheet: [https://rstudio.github.io/cheatsheets/html/data-visualization.html]
+* More on data visualization, the data-vis cheat sheet: [click here!](https://rstudio.github.io/cheatsheets/html/data-visualization.html)
 * If you found it challenging to understand data wrangling and manipulation i.e what was done prior visualization on the data, read more on dplyr and how it works: 
-[https://ourcodingclub.github.io/tutorials/data-manip-intro/]
-* More on using controlling layouts with patchwork: [https://cran.r-project.org/web/packages/patchwork/vignettes/patchwork.html]
-* More on aligning plots across multiple pages using patchwork: [https://patchwork.data-imaginist.com/articles/guides/multipage.html]
+[click here!](https://ourcodingclub.github.io/tutorials/data-manip-intro/)
+* More on using controlling layouts with patchwork: [click here!](https://cran.r-project.org/web/packages/patchwork/vignettes/patchwork.html)
+* More on aligning plots across multiple pages using patchwork: [click here!](https://patchwork.data-imaginist.com/articles/guides/multipage.html)
   
 
 ---
