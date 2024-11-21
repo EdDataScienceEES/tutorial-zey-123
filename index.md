@@ -769,6 +769,9 @@ finalise_plot(
 ```
 This gives us the following graphs :
 
+<div align= "center">
+     <img width="580" alt="Screenshot 2024-11-21 at 15 51 51" src="https://github.com/user-attachments/assets/42a2a7ce-e52f-4c36-9e1f-c01f47f08479">
+</div>
 
 **Approach 2:** Use `patchwork` for combined plots and add features manually:
 To 
@@ -794,18 +797,11 @@ ggsave(
 
 This gives us the following graph with `finalise_plot()` features like captions added manually.
 
-
-
-
-
-
-
-
 <div align= "center">
-     <img width="500" alt="Screenshot 2024-11-20 at 19 53 51" src="https://github.com/user-attachments/assets/42dc640e-8eb5-45cc-ba82-060f54b2f46d">
+     <img width="550" alt="Screenshot 2024-11-21 at 15 49 31" src="https://github.com/user-attachments/assets/e3ecf61a-01fa-4884-9216-d54e575dbdbc">
 </div>
 
-The first two plots are stacked vertically, while the third plot is placed beside them, forming a coherent and visually appealing narrative. Annotations, including a title, subtitle, and caption, are added to provide context and credit to the data source. The final plot is saved using the finalise_plot() function, ensuring consistency and ease of sharing the final product. This combination of plots brings together different aspects of the penguin data into a powerful, cohesive visualization.
+The first two plots are stacked vertically, while the third plot is placed beside them, forming a coherent and visually appealing narrative. Annotations, including a title, subtitle, and caption, are added to provide context and credit to the data source. The final plot is saved using the `finalise_plot()` function, ensuring consistency and ease of sharing the final product. This combination of plots brings together different aspects of the penguin data into a powerful, cohesive visualization.
 
 
 
