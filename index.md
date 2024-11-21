@@ -878,21 +878,21 @@ _If you have any questions or feedback,  don't hesitate to reach out to me on ze
 
 ---
 
-Related Tutorials:
+**Related Tutorials:**
 * Beautiful and Informative Data-vis (starters on ggplot2): [click here!](https://ourcodingclub.github.io/tutorials/datavis/)
 * Data Visualization 2 (customising your figures): [click here!](https://ourcodingclub.github.io/tutorials/data-vis-2/)
 * Getting Started with Shiny (creating interactive web apps using the R language): [click here!](https://ourcodingclub.github.io/tutorials/shiny/)
 * Storytelling with data (data visualisation meets graphic design to tell scientific stories): [click here!](https://ourcodingclub.github.io/tutorials/dataviz-storytelling/)
   
 
-Future Reading:
+**Future Reading:**
 * More on data visualization, the data-vis cheat sheet: [click here!](https://rstudio.github.io/cheatsheets/html/data-visualization.html)
 * If you found it challenging to understand data wrangling and manipulation i.e what was done prior visualization on the data, read more on dplyr and how it works: 
 [click here!](https://ourcodingclub.github.io/tutorials/data-manip-intro/)
 * More on using controlling layouts with patchwork: [click here!](https://cran.r-project.org/web/packages/patchwork/vignettes/patchwork.html)
 * More on aligning plots across multiple pages using patchwork: [click here!](https://patchwork.data-imaginist.com/articles/guides/multipage.html)
 
-Citation:
+**Citation:**
 
 _Alongside the sources used that were linked throughout the tutorial and can be found in the future readings & related tutorials above, the `palmerpenguins` dataset was used_:
 
