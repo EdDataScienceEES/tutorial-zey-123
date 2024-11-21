@@ -771,45 +771,26 @@ finalise_plot(
 ```
 This gives us the following graphs :
 
-<div style="display: flex; justify-content: center;">
-
-  <!-- Plot 1 and Plot 2 in the same row -->
-  <div style="margin-right: 10px;">
-    <img width="400" alt="Plot 1" src="https://github.com/user-attachments/assets/cc734104-60f1-43cf-9f6e-f4ff18b77c00">
-  </div>
-  <div>
-    <img width="400" alt="Plot 2" src="https://github.com/user-attachments/assets/1d1650b3-adce-4d3a-818e-98fc7e75faeb">
-  </div>
-
-</div>
-
-<!-- Plot 3 in a separate row, centered -->
-<div style="text-align: center; margin-top: 20px;">
-  <img width="400" alt="Plot 3" src="https://github.com/user-attachments/assets/f85c6559-2bc5-4205-98e1-021203b7735e">
-</div>
-
-
 
 <div style="display: flex; justify-content: center;"> <!-- Plot 1 and Plot 2 in the same row -->
   <div style="margin-right: 10px; text-align: center;">
-    <p><strong>Plot 1: Flipper Length vs. Body Mass</strong></p>
+    <p><strong>Plot 1</strong></p>
     <img width="400" alt="Plot 1" src="https://github.com/user-attachments/assets/cc734104-60f1-43cf-9f6e-f4ff18b77c00">
   </div>
   <div style="text-align: center;">
-    <p><strong>Plot 2: Body Mass Distribution</strong></p>
+    <p><strong>Plot 2</strong></p>
     <img width="400" alt="Plot 2" src="https://github.com/user-attachments/assets/1d1650b3-adce-4d3a-818e-98fc7e75faeb">
   </div>
 </div>
 
 <!-- Plot 3 in a separate row, centered -->
 <div style="text-align: center; margin-top: 20px;">
-  <p><strong>Plot 3: Flipper Length (mm) vs. Body Mass by Species</strong></p>
+  <p><strong>Plot 3</strong></p>
   <img width="400" alt="Plot 3" src="https://github.com/user-attachments/assets/f85c6559-2bc5-4205-98e1-021203b7735e">
 </div>
 
 
 **Approach 2:** Use `patchwork` for combined plots and add features manually:
-To 
 
 ```
 # Combine the original plots using patchwork
