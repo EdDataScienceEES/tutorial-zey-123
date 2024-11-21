@@ -744,6 +744,8 @@ finalise_plot(
 
 The first two plots are stacked vertically, while the third plot is placed beside them, forming a coherent and visually appealing narrative. Annotations, including a title, subtitle, and caption, are added to provide context and credit to the data source. The final plot is saved using the finalise_plot() function, ensuring consistency and ease of sharing the final product. This combination of plots brings together different aspects of the penguin data into a powerful, cohesive visualization.
 
+**Problem**: bbplot is desgined for single plot.... therefore patchwork and finalise_plot() do not necessarily work well together. For this reason....So the solutions for this is to either save individual plots using the `finalise_plot()` function OR to add features finalise_plot add manually and ggsave this as below. 
+
 
 ---
 ## Wrapping Up: A Positive Reflection on Your Progress
