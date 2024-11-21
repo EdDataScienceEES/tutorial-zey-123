@@ -850,7 +850,7 @@ _If you have any questions or feedback,  don't hesitate to reach out to me on [z
 
 Related Tutorials:
 * Beautiful and Informative Data-vis (starters on ggplot2): [click here!](https://ourcodingclub.github.io/tutorials/datavis/)
-* Data Visualization 2 (customising your figures): [here!](https://ourcodingclub.github.io/tutorials/data-vis-2/)
+* Data Visualization 2 (customising your figures): [click here!](https://ourcodingclub.github.io/tutorials/data-vis-2/)
 * Getting Started with Shiny (creating interactive web apps using the R language): [click here!](https://ourcodingclub.github.io/tutorials/shiny/)
 * Storytelling with data (data visualisation meets graphic design to tell scientific stories): [click here!](https://ourcodingclub.github.io/tutorials/dataviz-storytelling/)
   
