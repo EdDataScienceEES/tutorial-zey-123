@@ -375,6 +375,10 @@ penguins_clean <- penguins %>% drop_na()
     plot.subtitle = element_text(size = 10)))
 
 
+
+# File path for the BBC logo image
+logo_image_path <- "/Users/zeynepyuksel/Desktop/bbc.png"  # Adjust the path if needed
+
 # Save Plot 1
 finalise_plot(
   plot_name = plot1,
@@ -405,14 +409,13 @@ finalise_plot(
   height_pixels = 450
 )
 
-
 # Combine the original plots using patchwork
-(final_combined_plot <- (plot1 / plot2) | plot3 + 
-  plot_annotation(
-    title = "Exploring Penguin Data: A Visual Journey",
-    subtitle = "Combining multiple visualizations into one cohesive story",
-    caption = "Data: Palmer Penguins | Visualization: BBC-Style"
-  ))
+(final_combined_plot <- ((plot1 / plot2) | plot3) + 
+    plot_annotation(
+      title = "Exploring Penguin Data: A Visual Journey",
+      subtitle = "Combining multiple visualizations into one cohesive story",
+      caption = "Data: Palmer Penguins | Visualization: BBC-Style"
+    ))
 
 # Save the combined plot directly with ggsave()
 ggsave(
@@ -426,33 +429,6 @@ ggsave(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# File path for the BBC logo image
-logo_image_path <- "/Users/zeynepyuksel/Desktop/bbc.png"  # Adjust the path if needed
 
 # Save the combined plot using finalise_plot
 finalise_plot(plot1,
@@ -476,14 +452,7 @@ finalise_plot(plot3,
 
 
 
-# Combine all plots using patchwork
-(final_plot <- ((plot1 / plot2) | plot3) +  # Stack plot1 and plot2, and place plot3 beside them
-    bbc_style())
 
-
-# Combine all plots using patchwork
-(final_plot <- (plot1 / plot2) | plot3)  # Stack plot1 and plot2, and place plot3 beside them
-   
 
 # Save the combined plot using finalise_plot
 finalise_plot(
@@ -491,6 +460,13 @@ finalise_plot(
   source_name = "Data source: Palmer Penguins dataset",
   logo_image_path = logo_image_path, 
   save_filepath = "Tutorial/final_penguin_plot.png")  # Adjust this to your folder structure
+
+
+
+
+
+
+
 
 
 ##############################################
