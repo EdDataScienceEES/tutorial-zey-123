@@ -1,4 +1,7 @@
----
+<img width="787" alt="Screenshot 2024-11-21 at 19 22 07" src="https://github.com/user-attachments/assets/282e48df-d8e4-483b-948e-bfe3c58fc157">
+
+<h1 style="color: turquoise;">Advanced Data Visualization: Creating BBC-Style Plots in R (Part 3)</h1>
+
 # Advanced Data Visualization: Creating BBC-Style Plots in R (Part 3)
 ---
 
@@ -319,7 +322,7 @@ Just like `facet_grid()`, you can control the scales of the axes with the `scale
 
 Here’s a quick cheat sheet on `facet_grid` before we dive into faceting our penguins using `facet_wrap()`:
 
-```
+```r
 # Start with a simple scatterplot
 penguin_plot <- ggplot(penguins, aes(bill_length_mm, flipper_length_mm)) + geom_point()
 
@@ -343,7 +346,7 @@ See how flexible and fun faceting can be? Whether you’re organizing by rows, c
 
 Ready to see this magic in action with our penguins? Let’s do it using `facet_wrap()`, keeping things playful and simple- just like penguins themselves! 🐧
 
-```
+```r
 # Facet by species
 # Vertical (by column)
 (Vfaceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
@@ -359,7 +362,7 @@ Ready to see this magic in action with our penguins? Let’s do it using `facet_
 
 As you can see, something seems off—the x-axis (flipper length) doesn't fit properly, which suggests that a horizontal arrangement of facets might work better for this specific example. We can fix this easily by adding the `dir='v'` command in `facet_wrap`.
 
-```
+```r
 #Horizontal (by row)
 (Hfaceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
     geom_point(aes(color = species), size = 3) +  
@@ -374,7 +377,7 @@ As you can see, something seems off—the x-axis (flipper length) doesn't fit pr
 
 Even better! We can take it up a notch by adjusting the layout so that the species names elegantly sit at the bottom of the facets. All it takes is adding the magical `strip.position = 'bottom'` command!
 
-```
+```r
 # Adding label at bottom
 (Lfaceted_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +  
     geom_point(aes(color = species), size = 3) +  
@@ -427,7 +430,7 @@ Let’s give it a try!
 #### For categorical data (e.g `species`)
 If you want to apply scico for a discrete variable (like species), use `scale_color_scico_d()`.
 
-```
+```r
 # For categorical data (species)
 (categorical_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +  # Create a ggplot object with penguins data, map 'flipper_length_mm' to x-axis, 'body_mass_g' to y-axis, and color based on 'species' (categorical variable)
     geom_point(size = 3) +
@@ -449,7 +452,7 @@ This plot shows the relationship between flipper length and body mass for differ
 #### For continuous data (e.g `body_mass_g` or `flipper_length_mm`)
 Say we want to look at `body_mass_g` or `flipper_length_mm`, which are continous variables, we have to use `scale_color_scico()` without the `_d` suffix:
 
-```
+```r
 # For continuous data (e.g., body_mass_g)
 (continuous_plot <- ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = body_mass_g)) +  # Create a ggplot object with 'body_mass_g' as the color aesthetic (continuous variable)
     geom_point(size = 3) + 
@@ -476,7 +479,7 @@ A helpful final step when using `scico` palettes is performing an accessibility 
 To do this, make sure you have downloaded the `colorblindcheck` package earlier. We will be using the `palette_check()` function. This function evaluates how well a palette can be perceived by individuals with common types of color vision deficiencies, such as deuteranopia, protanopia, or tritanopia. Here's a concise example and explanation:
 
 **Running the check**
-```
+```r
 # Check for colorblind accessibility
 
 # 1. Accessibility check for the categorical plot (species-based colors)
@@ -535,7 +538,7 @@ Well done for making it this far! When visualizing data, sometimes it's useful t
 ####  3.a.Combining Plots into a Story   
 Below is a code example using the penguin dataset to create multiple plots and combine them into a unified story with patchwork. Each plot represents a different aspect of the penguin data, and we’ll combine them to show different visual angles at once.
 
-```
+```r
 # Create the first plot (species vs flipper_length_mm)
 (plot1 <- ggplot(penguins, aes(x = species, y = flipper_length_mm, fill = species)) +
   geom_boxplot() +                           # Creates a boxplot for flipper length across species
@@ -572,7 +575,7 @@ Below is a code example using the penguin dataset to create multiple plots and c
 
 As you can see, combining `patchwork` with the `bbc_style()` theme may produce plots that are difficult to read due to oversized elements. To address this, we can make a few adjustments. Specifically, by adding a line of code after applying the `bbc_style()` theme to all plots and combining them with `patchwork`, we can fine-tune the plot sizes for better readability. It is also important to note that by default, plots will arrange themselves in a grid. If you want to adjust the number of rows or columns, use `plot_layout()`.
 
-```
+```r
   bbc_style() +                                  # Apply BBC style directly
   theme(plot.title = element_text(size = 12),    # Adjust title size for better fitting
         plot.subtitle = element_text(size = 10), # Adjust subtitle size for better fitting
@@ -592,7 +595,7 @@ You can also stack or arrange plots side by side using the / and | operators:
 
 To stack plots vertically:
 
-```
+```r
 plot1 / plot2
 ```
 <div align= "center">
@@ -600,7 +603,7 @@ plot1 / plot2
 </div>
 
 To place plots side by side:
-```
+```r
 plot1 | plot2
 ```
 <div align= "center">
@@ -608,7 +611,7 @@ plot1 | plot2
 </div>
 
 You can combine these operators for more complex layouts:
-```
+```r
 plot1 | (plot2 / plot3)
 ```
 <div align= "center">
@@ -618,7 +621,7 @@ plot1 | (plot2 / plot3)
 ##### Annotating the Composition
 You can add an overall title or captions with `plot_annotation()`:
 
-```
+```r
 (plot1 | (plot2 / plot3)) + plot_annotation(title = "Penguin Data Analysis")
 ```
 <div align= "center">
@@ -627,7 +630,7 @@ You can add an overall title or captions with `plot_annotation()`:
 
 Patchwork also provides the ability to auto-tag to identify subplots in text:
 
-```
+```r
 plot1 + plot2 + plot3 + plot_layout(ncol = 2) + plot_annotation(tag_levels = 'I')
 ```
 <div align= "center">
@@ -653,7 +656,7 @@ So let’s dive in and get creative! Here’s how to finish strong with the `fin
 
 #### Mastering Annotations, Trend Lines, and BBC-Style Visuals: Flipper Length vs. Body Mass
 
-```
+```r
 # Prepare data: Use the penguins dataset and remove any NA values
 penguins_clean <- penguins %>% drop_na()
 
@@ -677,7 +680,7 @@ This plot combines multiple advanced visualization techniques to create an acces
 
 #### Exploring Species-Based Body Mass Distributions with Density Plots
 
-```
+```r
 # Create the second plot: Density plot of body mass across species
 (plot2 <- ggplot(penguins_clean, aes(x = body_mass_g, fill = species)) +
   geom_density(alpha = 0.7) +
@@ -695,7 +698,7 @@ This plot uses a density visualization to highlight how the body mass of penguin
 
 ####  Faceted Scatter Plot with Secondary Axis and Species Insights
 
-```
+```r
 # Create the third plot: Faceted scatter plot with a secondary axis for flipper length in cm
 (plot3 <- ggplot(penguins_clean, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
   geom_point(size = 2) +  # Scatter plot with smaller points for better visibility in facets
@@ -744,7 +747,7 @@ Below, we demonstrate both approaches and highlight the outcomes they produce.
 **Approach 1:** Saving individual plots with `finalise_plot()`: 
 To remind yourself on the arguments needed for `finalise-plot()`, feel free to scroll back up to part 1b :). The plots below are all set to save in the repository's "Tutorial" folder. 
 
-```
+```r
 # Save Plot 1
 finalise_plot(
   plot_name = plot1,
@@ -795,7 +798,7 @@ This gives us the following graphs :
 
 **Approach 2:** Use `patchwork` for combined plots and add features manually:
 
-```
+```r
 # Combine the original plots using patchwork
 (final_combined_plot <- ((plot1 / plot2) | plot3) + # Stack plot1 and plot2, and place plot3 beside them
     plot_annotation(
