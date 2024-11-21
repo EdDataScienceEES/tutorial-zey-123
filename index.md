@@ -1,3 +1,13 @@
+---
+layout: tutorial
+title: Advanced Data Visualization
+subtitle: Creating BBC-Style Plots in R (Part 3)
+date: 2024-21-11 19:00:00
+author: Zeynep Yuksel
+redirect_from:
+  - /2020/02/02/dataviz-beautification.html
+tags: data-vis intermediate advanced
+---
 # Advanced Data Visualization: Creating BBC-Style Plots in R (Part 3)
 ---
 > <p align="center"> Created by Zeynep Yuksel - November 2024 </p>
@@ -46,7 +56,7 @@ This dataset is particularly relevant for creating BBC-style plots as it provide
 [Click here to read more on this dataset](https://allisonhorst.github.io/palmerpenguins/) 
 
 To install:
-```
+```r
 install.packages("palmerpenguins")
 library(palmerpenguins)
 # To explore the dataset (a useful practice):
@@ -55,7 +65,7 @@ view(penguins)
 ```
 **Additionally,** the repository containing the script that will be used in this tutorial can be forked to your own GitHub account and added as a new RStudio project by copying the HTTPS link. Follow [this link](https://github.com/EdDataScienceEES/tutorial-zey-123) to access the repo and clone. Make a new script file making sure its informative and has your info, remember, following the coding etiquette covered in previous tutorials is an important practice to adopt at this stage.
 
-```
+```r
 # Data visualisation tutorial (part 3)
 # Your Name
 # Date           
@@ -74,7 +84,7 @@ Simplicity, clarity, accessibility, and storytelling. Some examples of BBC plots
 
 To make graphics that adhere to the BBC style as seen above and will be used to advance in data visualization through this tutorial, certain packages need to be installed and loaded: 
 
-```
+```r
 # Install packages 
 install.packages(c("dplyr", "ggplot2","patchwork","scico", "extrafont", "colorblindcheck", 
                    "tidyr", "gapminder", "ggalt", "forcats", "R.utils", "png","grid",
